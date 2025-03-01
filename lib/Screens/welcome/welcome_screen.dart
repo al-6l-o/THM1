@@ -12,6 +12,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   PageController _pageController = PageController();
   int _currentIndex = 0;
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
   void _onPageChanged(int index) {
     setState(() {
       _currentIndex = index;
@@ -38,15 +43,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 onPageChanged: _onPageChanged,
                 children: [
                   _buildPage('Welcome To', ' Tele Health Monitoring',
-                      'assets/animations/i.json'),
+                      'assets/animations/medical.json'),
                   _buildPage(
                       'Tele Health Monitoring',
-                      'an application monitors vital signs such as ECG, temperature, and more.',
+                      'An application monitors vital signs such as ECG, temperature, and more.',
                       'assets/animations/vital_signs.json'),
                   _buildPage(
                       'How It Works',
-                      'The app connects to a device that measure vital signs and transfer it to it ,to monitoring the patient remotly.',
-                      'assets/animations/heart_rate.json'),
+                      'The app connects to a device that measures vital signs and transfers them to it for remote patient monitoring.',
+                      'assets/animations/app.json'),
                   _buildPage(
                       'Get Started',
                       'Press the button below to start using the app.',
@@ -58,7 +63,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             if (_currentIndex == 3) // يظهر الزر في الصفحة الرابعة فقط
               ElevatedButton(
                 onPressed: () {
-                  // الانتقال إلى صفحة إضافة الأسرّة
+                  // ✅ الانتقال إلى صفحة الأسرّة مباشرة بعد الضغط على زر "Start"
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => AddBedsScreen()),
@@ -90,9 +95,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         children: [
           isLottie
               ? Lottie.asset(assetPath,
-                  width: 250, height: 250) // عرض أنيميشن لوتي
+                  width: 300, height: 300) // عرض أنيميشن لوتي
               : Image.asset(assetPath,
-                  width: 300, height: 300), // عرض صورة عادية
+                  width: 350, height: 350), // عرض صورة عادية
           SizedBox(height: 20),
           Text(
             title,
@@ -121,13 +126,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _indicator(0), // مؤشر الصفحة الأولى
+        _indicator(0),
         SizedBox(width: 8),
-        _indicator(1), // مؤشر الصفحة الثانية
+        _indicator(1),
         SizedBox(width: 8),
-        _indicator(2), // مؤشر الصفحة الثالثة
+        _indicator(2),
         SizedBox(width: 8),
-        _indicator(3), // مؤشر الصفحة الرابعة
+        _indicator(3),
       ],
     );
   }

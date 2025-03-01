@@ -8,4 +8,5 @@ class AppColors {
   static const Color accentColor = Color(0xFF00BFFF); // لون التأكيد
   static const Color backgroundColor = Color(0xFFFFFFFF); // لون الخلفية
   static const Color textColor = Color(0xFF000000); // لون النص
+  static const Color warningColor = Color.fromARGB(255, 177, 1, 1); // لون الحذف
 }
