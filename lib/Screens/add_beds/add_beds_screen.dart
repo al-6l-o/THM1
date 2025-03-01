@@ -75,9 +75,25 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(
-            'Are you sure you want to delete this bed?',
-            style: TextStyle(fontSize: 17),
+          contentPadding: EdgeInsets.all(20),
+          content: Stack(
+            clipBehavior: Clip.none, // يسمح بظهور الأنيميشن خارج الـ Box
+            children: [
+              Positioned(
+                top: -65, // اجعل الأنيميشن يظهر فوق البوكس
+                left: 80,
+                child: Lottie.asset(
+                  'assets/animations/warning.json', // ضع مسار الأنيميشن هنا
+                  width: 75,
+                  height: 75,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              const Text(
+                "Are you sure you want to delet this bed?",
+                style: TextStyle(fontSize: 17),
+              ),
+            ],
           ),
           actions: [
             TextButton(
@@ -141,7 +157,7 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Add Bed'),
+          title: Text('Add patient'),
           content: StatefulBuilder(
             builder: (context, setState) {
               return Form(
@@ -173,7 +189,7 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
                           ),
                         ),
                       TextFormField(
-                        decoration: customInputDecoration('Name'),
+                        decoration: customInputDecoration('patient Name'),
                         cursorColor: AppColors.primaryColor,
                         style: TextStyle(color: Colors.black),
                         validator: (value) =>
@@ -181,7 +197,7 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
                         onSaved: (value) => bedName = value!,
                       ),
                       TextFormField(
-                        decoration: customInputDecoration('Age'),
+                        decoration: customInputDecoration('patient Age'),
                         keyboardType: TextInputType.number,
                         cursorColor: AppColors.primaryColor,
                         style: TextStyle(color: Colors.black),
@@ -459,8 +475,14 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
     return await showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text("Exit App"),
-            content: const Text("Are you sure you want to exit?"),
+            title: const Text(
+              "Exit App",
+              style: TextStyle(fontSize: 17),
+            ),
+            content: const Text(
+              "Are you sure you want to exit?",
+              style: TextStyle(fontSize: 16),
+            ),
             actions: [
               TextButton(
                 onPressed: () =>
