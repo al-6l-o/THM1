@@ -58,9 +58,12 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
 
   void _deleteBed(String bedId) {
     FirebaseFirestore.instance.collection('beds').doc(bedId).delete().then((_) {
-      print('Bed deleted successfully!');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Bed deleted successfully!')),
+        SnackBar(
+            content: Text('Bed deleted successfully!',
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyMedium?.color)),
+            backgroundColor: Theme.of(context).dialogTheme.backgroundColor),
       );
     }).catchError((error) {
       print('Failed to delete bed: $error');
@@ -75,6 +78,8 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
+          // خلفية المربع الحواري
           contentPadding: EdgeInsets.all(20),
           content: Stack(
             clipBehavior: Clip.none, // يسمح بظهور الأنيميشن خارج الـ Box
@@ -102,7 +107,7 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
               },
               child: Text(
                 'Cancel',
-                style: TextStyle(color: AppColors.primaryColor),
+                style: TextStyle(color: Theme.of(context).colorScheme.primary),
               ),
             ),
             TextButton(
@@ -111,7 +116,7 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
                 Navigator.of(context).pop(); // إغلاق النافذة بعد الحذف
               },
               child: Text('Delete',
-                  style: TextStyle(color: AppColors.warningColor)),
+                  style: TextStyle(color: Theme.of(context).colorScheme.error)),
             ),
           ],
         );
@@ -123,7 +128,8 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
   InputDecoration customInputDecoration(String label) {
     return InputDecoration(
       labelText: label,
-      labelStyle: TextStyle(color: Colors.black),
+      labelStyle:
+          TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
       focusedBorder: UnderlineInputBorder(
         borderSide: BorderSide(color: AppColors.primaryColor, width: 2),
       ),
@@ -147,7 +153,7 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Maximum number of beds reached!'),
-          backgroundColor: AppColors.warningColor,
+          backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
       return; // الخروج من الدالة وعدم فتح نافذة الإضافة
@@ -168,8 +174,11 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
                     children: [
                       TextFormField(
                         decoration: customInputDecoration('Bed Number'),
-                        cursorColor: AppColors.primaryColor,
-                        style: TextStyle(color: Colors.black),
+                        keyboardType: TextInputType.number,
+                        cursorColor: Theme.of(context).colorScheme.primary,
+                        style: TextStyle(
+                            color:
+                                Theme.of(context).textTheme.bodyMedium?.color),
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Please enter the bed number';
@@ -189,18 +198,22 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
                           ),
                         ),
                       TextFormField(
-                        decoration: customInputDecoration('patient Name'),
-                        cursorColor: AppColors.primaryColor,
-                        style: TextStyle(color: Colors.black),
+                        decoration: customInputDecoration(' Name'),
+                        cursorColor: Theme.of(context).colorScheme.primary,
+                        style: TextStyle(
+                            color:
+                                Theme.of(context).textTheme.bodyMedium?.color),
                         validator: (value) =>
                             value!.isEmpty ? 'Please enter a name' : null,
                         onSaved: (value) => bedName = value!,
                       ),
                       TextFormField(
-                        decoration: customInputDecoration('patient Age'),
+                        decoration: customInputDecoration(' Age'),
                         keyboardType: TextInputType.number,
-                        cursorColor: AppColors.primaryColor,
-                        style: TextStyle(color: Colors.black),
+                        cursorColor: Theme.of(context).colorScheme.primary,
+                        style: TextStyle(
+                            color:
+                                Theme.of(context).textTheme.bodyMedium?.color),
                         validator: (value) =>
                             value!.isEmpty ? 'Please enter age' : null,
                         onSaved: (value) => age = value!,
@@ -224,7 +237,8 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
                                           gender = value!;
                                         });
                                       },
-                                      activeColor: AppColors.primaryColor,
+                                      activeColor:
+                                          Theme.of(context).colorScheme.primary,
                                     ),
                                     Text("Male"),
                                   ],
@@ -240,7 +254,8 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
                                           gender = value!;
                                         });
                                       },
-                                      activeColor: AppColors.primaryColor,
+                                      activeColor:
+                                          Theme.of(context).colorScheme.primary,
                                     ),
                                     Text("Female"),
                                   ],
@@ -254,11 +269,17 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
                         decoration:
                             customInputDecoration('Phone Number').copyWith(
                           prefixText: '+967 ',
-                          prefixStyle: TextStyle(color: AppColors.textColor),
+                          prefixStyle: TextStyle(
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.color),
                         ),
                         keyboardType: TextInputType.phone,
-                        cursorColor: AppColors.primaryColor,
-                        style: TextStyle(color: Colors.black),
+                        cursorColor: Theme.of(context).colorScheme.primary,
+                        style: TextStyle(
+                            color:
+                                Theme.of(context).textTheme.bodyMedium?.color),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter phone number';
@@ -280,7 +301,9 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
               child: Text('Cancel',
-                  style: TextStyle(color: AppColors.primaryColor)),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                  )),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -316,7 +339,8 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor),
+                backgroundColor: Theme.of(context).colorScheme.primary,
+              ),
               child: Text('Add', style: TextStyle(color: Colors.white)),
             ),
           ],
@@ -354,12 +378,13 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
         appBar: AppBar(
           title: Text(
             'THM',
-            style: TextStyle(color: AppColors.backgroundColor),
+            style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
           ),
-          backgroundColor: AppColors.primaryColor,
+          backgroundColor: Theme.of(context).colorScheme.primary,
           actions: [
             IconButton(
-              icon: Icon(Icons.settings, color: AppColors.backgroundColor),
+              icon: Icon(Icons.settings,
+                  color: Theme.of(context).colorScheme.onPrimary),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -377,7 +402,9 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                child: CircularProgressIndicator(color: AppColors.primaryColor),
+                child: CircularProgressIndicator(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               );
             }
 
@@ -388,7 +415,7 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.textColor,
+                    color: Theme.of(context).textTheme.bodyMedium?.color,
                   ),
                 ),
               );
@@ -425,7 +452,7 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
                     margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                     padding: EdgeInsets.all(15),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.background,
                       borderRadius: BorderRadius.circular(10),
                       boxShadow: [
                         BoxShadow(
@@ -444,15 +471,15 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
                             Text(
                               "Bed ${bedData?['bedNumber'] ?? 'Unknown'}",
                               style: TextStyle(
-                                color: AppColors.primaryColor,
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
+                                fontSize: 20,
                               ),
                             ),
                           ],
                         ),
                         Icon(Icons.arrow_forward_ios,
-                            color: AppColors.primaryColor),
+                            color: Theme.of(context).colorScheme.onBackground)
                       ],
                     ),
                   ),
@@ -464,7 +491,7 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
         floatingActionButton: FloatingActionButton(
           onPressed: _showAddBedDialog,
           backgroundColor: AppColors.primaryColor,
-          child: Icon(Icons.add, color: Colors.white),
+          child: Icon(Icons.add, color: Theme.of(context).iconTheme.color),
         ),
       ),
     );
@@ -475,6 +502,7 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
     return await showDialog(
           context: context,
           builder: (context) => AlertDialog(
+            backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
             title: const Text(
               "Exit App",
               style: TextStyle(fontSize: 17),
@@ -492,8 +520,9 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
               ),
               TextButton(
                 onPressed: () => Navigator.of(context).pop(true), // الخروج
-                child: const Text("Yes",
-                    style: TextStyle(color: AppColors.warningColor)),
+                child: Text("Yes",
+                    style:
+                        TextStyle(color: Theme.of(context).colorScheme.error)),
               ),
             ],
           ),

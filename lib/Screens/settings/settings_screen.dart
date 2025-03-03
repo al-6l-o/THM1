@@ -82,8 +82,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               direction: Axis.horizontal,
               allowHalfRating: true,
               itemCount: 5,
-              itemBuilder: (context, _) =>
-                  Icon(Icons.star, color: AppColors.primaryColor),
+              itemBuilder: (context, _) => Icon(Icons.star,
+                  color: Theme.of(context).colorScheme.primary),
               onRatingUpdate: (rating) {
                 tempRating = rating;
               },
@@ -95,7 +95,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             onPressed: () => Navigator.pop(context),
             child: Text(
               "Cancel",
-              style: TextStyle(color: AppColors.warningColor),
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
             ),
           ),
           ElevatedButton(
@@ -106,9 +106,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               _submitRating(userRating);
               Navigator.pop(context);
             },
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).dialogTheme.backgroundColor),
             child: Text(
               "Submit",
-              style: TextStyle(color: AppColors.primaryColor),
+              style: TextStyle(color: Theme.of(context).colorScheme.primary),
             ),
           ),
         ],
@@ -124,10 +126,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: AppBar(
         title: Text(
           "App Settings",
-          style: TextStyle(color: AppColors.backgroundColor),
+          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
         ),
         backgroundColor: AppColors.primaryColor,
-        iconTheme: IconThemeData(color: AppColors.backgroundColor),
+        iconTheme:
+            IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -136,8 +139,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: [
             SwitchListTile(
               title: Text("Dark Mode"),
-              value: themeProvider.isDarkMode,
-              onChanged: (value) => themeProvider.toggleTheme(),
+              value: Provider.of<ThemeProvider>(context)
+                  .isDarkMode, // ✅ تأكد إنه يستمع للتغيير
+              onChanged: (value) {
+                Provider.of<ThemeProvider>(context, listen: false)
+                    .toggleTheme();
+              },
             ),
             SizedBox(height: 10),
             Text("Language",
@@ -176,7 +183,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Text("Average Rating: ${averageRating.toStringAsFixed(1)}"),
               leading: Icon(
                 Icons.star_rate,
-                color: AppColors.primaryColor,
+                color: Theme.of(context).colorScheme.primary,
               ),
               onTap: _showRatingDialog,
             ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:t_h_m/Constants/colors.dart';
+import 'package:provider/provider.dart';
+import 'package:t_h_m/Providers/theme_provider.dart';
 
 class PatientInfoScreen extends StatefulWidget {
   final String docId;
@@ -111,7 +113,11 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
         });
 
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Updated successfully!')),
+          SnackBar(
+              content: Text('Updated successfully!',
+                  style: TextStyle(
+                      color: Theme.of(context).textTheme.bodyMedium?.color)),
+              backgroundColor: Theme.of(context).dialogTheme.backgroundColor),
         );
       }).catchError((error) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -130,23 +136,30 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
     showDialog(
       context: context,
       builder: (context) {
+        backgroundColor:
+        Theme.of(context).dialogTheme.backgroundColor;
+
         return AlertDialog(
           title: const Text(
             "Bed Number Existed !",
             style: TextStyle(color: AppColors.warningColor, fontSize: 20),
           ),
-          content: const Text(
+          content: Text(
             ' Please Enter Another Number',
-            style: TextStyle(color: AppColors.textColor, fontSize: 14),
+            style: TextStyle(
+                color: Theme.of(context).textTheme.bodyMedium?.color,
+                fontSize: 14),
           ),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(); // إغلاق التنبيه
               },
-              child: const Text(
+              child: Text(
                 'OK',
-                style: TextStyle(color: AppColors.primaryColor),
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
               ),
             ),
           ],
@@ -180,12 +193,13 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
       onWillPop: _onWillPop,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Patient informatins',
-              style: TextStyle(color: Colors.white)),
+          title: Text('Patient informatins',
+              style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
           backgroundColor: AppColors.primaryColor,
-          iconTheme: const IconThemeData(color: Colors.white),
+          iconTheme:
+              IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
         ),
-        backgroundColor: AppColors.backgroundColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();
@@ -212,8 +226,9 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
                       ElevatedButton(
                         onPressed: _updatePatientData,
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primaryColor),
-                        child: const Text(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary),
+                        child: Text(
                           'Save',
                           style: TextStyle(color: AppColors.backgroundColor),
                         ),
@@ -239,8 +254,9 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
               _isEditing = true;
             });
           },
-          backgroundColor: AppColors.primaryColor,
-          child: const Icon(Icons.edit, color: Colors.white),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          child:
+              Icon(Icons.edit, color: Theme.of(context).colorScheme.onPrimary),
         ),
       ),
     );
@@ -262,19 +278,26 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
           controller: controller,
           keyboardType: isNumber ? TextInputType.number : TextInputType.text,
           enabled: _isEditing,
-          cursorColor: AppColors.primaryColor, // تغيير لون المؤشر
+          cursorColor:
+              Theme.of(context).colorScheme.primary, // تغيير لون المؤشر
           decoration: InputDecoration(
-            labelText: label,
-            labelStyle: const TextStyle(color: AppColors.primaryColor),
-            enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.grey),
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide:
-                  const BorderSide(color: AppColors.primaryColor, width: 2.0),
-              borderRadius: BorderRadius.circular(8.0),
-            ),
+              labelText: label,
+              labelStyle:
+                  TextStyle(color: Theme.of(context).colorScheme.primary),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.primary, width: 2.0),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              hintStyle: TextStyle(
+                color: Theme.of(context).textTheme.bodyMedium?.color,
+              )),
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyMedium?.color,
           ),
         ),
       ),
@@ -287,12 +310,10 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Gender',
             style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: AppColors.primaryColor),
+                fontSize: 16, color: Theme.of(context).colorScheme.primary),
           ),
           Row(
             children: [
@@ -306,7 +327,7 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
                         });
                       }
                     : null,
-                activeColor: AppColors.primaryColor,
+                activeColor: Theme.of(context).colorScheme.primary,
               ),
               const Text('Male'),
               Radio<String>(
@@ -319,7 +340,7 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
                         });
                       }
                     : null,
-                activeColor: AppColors.primaryColor,
+                activeColor: Theme.of(context).colorScheme.primary,
               ),
               const Text('Female'),
             ],

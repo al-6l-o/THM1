@@ -5,10 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:t_h_m/Screens/add_beds/add_beds_screen.dart';
 import 'Screens/welcome/welcome_screen.dart';
 import 'Providers/theme_provider.dart';
+import 'package:t_h_m/Theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   // SharedPreferences prefs = await SharedPreferences.getInstance();
   // bool isFirstTime = prefs.getBool('first_time') ?? true;
 
@@ -37,8 +39,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
+      theme: AppTheme.lightTheme, // استخدام الثيم الفاتح
+      darkTheme: AppTheme.darkTheme, // استخدام الثيم الداكن
       home:
           // isFirstTime ?
           WelcomeScreen(),

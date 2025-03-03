@@ -52,17 +52,19 @@ class VitalSignsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(
           'Vital Signs',
-          style: TextStyle(color: AppColors.backgroundColor),
+          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
         ),
-        backgroundColor: AppColors.primaryColor,
-        iconTheme: IconThemeData(color: AppColors.backgroundColor),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        iconTheme: IconThemeData(color: Theme.of(context).iconTheme.color),
         actions: [
           Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.settings, color: Colors.white),
+              icon: Icon(Icons.settings,
+                  color: Theme.of(context).colorScheme.onPrimary),
               onPressed: () {
                 Scaffold.of(context).openEndDrawer(); // فتح القائمة الجانبية
               },
@@ -76,13 +78,13 @@ class VitalSignsScreen extends StatelessWidget {
           children: [
             Container(
               height: 90, // تقليل الارتفاع لجعل "Settings" أصغر
-              color: AppColors.primaryColor, // خلفية خضراء
+              color: Theme.of(context).colorScheme.primary,
               alignment: Alignment.centerLeft,
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 "Patient Settings",
                 style: TextStyle(
-                  color: Colors.white, // لون النص أبيض
+                  color: Theme.of(context).colorScheme.onPrimary,
                   fontSize: 22, // تصغير حجم النص قليلاً
                   fontWeight: FontWeight.bold,
                 ),
@@ -93,13 +95,15 @@ class VitalSignsScreen extends StatelessWidget {
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(vertical: 15),
                 decoration: BoxDecoration(
-                  color: AppColors.primaryColor, // لون الزر أخضر
+                  color: Theme.of(context).colorScheme.primary,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Center(
                   child: Text(
                     "Patient Info",
-                    style: TextStyle(color: Colors.white, fontSize: 18),
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        fontSize: 18),
                   ),
                 ),
               ),
@@ -159,10 +163,18 @@ class VitalSignCard extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 10),
       elevation: 3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      color: Theme.of(context).colorScheme.background,
       child: ListTile(
-        leading: Icon(icon, color: AppColors.primaryColor, size: 30),
-        title: Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text(value, style: TextStyle(fontSize: 16)),
+        leading: Icon(icon,
+            color: Theme.of(context).colorScheme.onBackground, size: 30),
+        title: Text(label,
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.onBackground)),
+        subtitle: Text(value,
+            style: TextStyle(
+                fontSize: 16,
+                color: Theme.of(context).colorScheme.onBackground)),
       ),
     );
   }
