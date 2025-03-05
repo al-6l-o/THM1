@@ -471,10 +471,11 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
                             Text(
                               "Bed ${bedData?['bedNumber'] ?? 'Unknown'}",
                               style: TextStyle(
-                                color:
-                                    Theme.of(context).colorScheme.onBackground,
-                                fontSize: 20,
-                              ),
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),

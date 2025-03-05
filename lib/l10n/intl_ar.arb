@@ -1,0 +1,22 @@
+{
+  "@@locale": "ar",
+  "welcome": "أهلاً وسهلاً",
+  "app_title": "مراقبة الصحة عن بُعد",
+  "settings": "الإعدادات",
+  "dark_mode": "الوضع الداكن",
+  "language": "اللغة",
+  "about_app": "حول التطبيق",
+  "rate_app": "تقييم التطبيق",
+  "select_language": "اختر اللغة",
+  "english": "الإنجليزية",
+  "arabic": "العربية",
+  "cancel": "إلغاء",
+  "submit": "إرسال",
+  "app_settings": "إعدادات التطبيق",
+  "version": "الإصدار",
+  "developedBy": "تم تطويره بواسطة",
+  "close": "إغلاق",
+  "average_rating": "متوسط التقييم"
+
+
+}

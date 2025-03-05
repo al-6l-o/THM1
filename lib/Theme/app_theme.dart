@@ -30,7 +30,7 @@ class AppTheme {
   static final darkTheme = ThemeData(
     brightness: Brightness.dark, // 🌙 ضروري عشان يفرق بين الثيمات
     primaryColor: AppColors.darkPrimaryColor,
-    scaffoldBackgroundColor: const Color.fromARGB(255, 22, 22, 22),
+    scaffoldBackgroundColor: AppColors.darkBackgroundColor,
     textTheme: const TextTheme(
       bodyMedium: TextStyle(color: AppColors.darkTextColor),
     ),
@@ -43,7 +43,7 @@ class AppTheme {
         primary: AppColors.darkPrimaryColor,
         onPrimary: AppColors.darkTextColor,
         background: AppColors.darkAlertDialogColor,
-        onBackground: AppColors.AlertDialogColor,
+        onBackground: AppColors.darkTextColor,
         error: AppColors.darkWarningColor),
     dialogTheme: DialogTheme(
       backgroundColor:

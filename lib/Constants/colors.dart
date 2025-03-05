@@ -12,7 +12,7 @@ class AppColors {
   // ألوان الوضع الداكن
   static const Color darkPrimaryColor = Color.fromARGB(255, 0, 112, 90);
   static const Color darkSecondaryColor = Color.fromARGB(255, 3, 190, 180);
-  static const Color darkBackgroundColor = Color.fromARGB(255, 0, 0, 0);
+  static const Color darkBackgroundColor = Color.fromARGB(255, 22, 22, 22);
   static const Color darkTextColor = Color.fromARGB(255, 255, 255, 255);
   static const Color darkWarningColor = Color.fromARGB(255, 204, 48, 48);
   static const Color darkAlertDialogColor = Color.fromARGB(255, 45, 45, 45);

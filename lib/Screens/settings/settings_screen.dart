@@ -5,6 +5,8 @@ import 'package:t_h_m/Providers/theme_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:t_h_m/generated/l10n.dart';
+import 'package:t_h_m/Providers/localization.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -38,12 +40,89 @@ class _SettingsScreenState extends State<SettingsScreen> {
     });
   }
 
+  void _changeLanguage(String languageCode) {
+    final localeProvider = Provider.of<LocaleProvider>(context, listen: false);
+    localeProvider.setLocale(languageCode); // تغيير اللغة
+  }
+
+  String getLanguageName(String languageCode) {
+    if (languageCode == 'en') {
+      return 'English';
+    } else if (languageCode == 'ar') {
+      return 'العربية';
+    } else {
+      return 'Unknown Language';
+    }
+  }
+
+  void _showLanguageDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(S.of(context).select_language),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // تحديد اللغة الإنجليزية بشكل افتراضي عندما تكون هي اللغة الحالية
+              RadioListTile<String>(
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("English"),
+                    Text("الإنجليزية",
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: const Color.fromARGB(255, 100, 100, 100))),
+                  ],
+                ),
+                value: "en", // استخدام 'en' بدلاً من 'English'
+                groupValue: Provider.of<LocaleProvider>(context)
+                    .locale
+                    .languageCode, // تعيين القيمة المحددة بناءً على اللغة الحالية
+                onChanged: (value) {
+                  if (value != null) {
+                    _updateLanguage(value);
+                    _changeLanguage(value); // تغيير اللغة إلى الإنجليزية
+                    Navigator.pop(context);
+                  }
+                },
+              ),
+              // تحديد اللغة العربية بشكل افتراضي إذا كانت هي اللغة الحالية
+              RadioListTile<String>(
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Arabic"),
+                    Text("العربية",
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: const Color.fromARGB(255, 100, 100, 100))),
+                  ],
+                ),
+                value: "ar", // استخدام 'ar' بدلاً من 'Arabic'
+                groupValue: Provider.of<LocaleProvider>(context)
+                    .locale
+                    .languageCode, // تعيين القيمة المحددة بناءً على اللغة الحالية
+                onChanged: (value) {
+                  if (value != null) {
+                    _updateLanguage(value);
+                    _changeLanguage(value); // تغيير اللغة إلى العربية
+                    Navigator.pop(context);
+                  }
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   Future<void> _submitRating(double rating) async {
     final CollectionReference ratings =
         FirebaseFirestore.instance.collection('ratings');
-
     await ratings.add({'rating': rating, 'timestamp': DateTime.now()});
-
     _getAverageRating();
   }
 
@@ -51,7 +130,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final CollectionReference ratings =
         FirebaseFirestore.instance.collection('ratings');
     final QuerySnapshot snapshot = await ratings.get();
-
     if (snapshot.docs.isNotEmpty) {
       double total = 0;
       for (var doc in snapshot.docs) {
@@ -65,14 +143,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   void _showRatingDialog() {
     double tempRating = userRating;
-
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(
-          "Rate the App",
-          style: TextStyle(fontSize: 19),
-        ),
+        title: Text(S.of(context).rate_app),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -93,10 +167,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text(
-              "Cancel",
-              style: TextStyle(color: Theme.of(context).colorScheme.error),
-            ),
+            child: Text(S.of(context).cancel,
+                style: TextStyle(color: Theme.of(context).colorScheme.error)),
           ),
           ElevatedButton(
             onPressed: () {
@@ -108,10 +180,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             },
             style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).dialogTheme.backgroundColor),
-            child: Text(
-              "Submit",
-              style: TextStyle(color: Theme.of(context).colorScheme.primary),
-            ),
+            child: Text(S.of(context).submit,
+                style: TextStyle(color: Theme.of(context).colorScheme.primary)),
           ),
         ],
       ),
@@ -121,14 +191,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDarkMode = themeProvider.isDarkMode;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "App Settings",
-          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
-        ),
-        backgroundColor: AppColors.primaryColor,
+        title: Text(S.of(context).app_settings,
+            style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
+        backgroundColor: Theme.of(context).colorScheme.primary,
         iconTheme:
             IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
       ),
@@ -137,54 +206,66 @@ class _SettingsScreenState extends State<SettingsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SwitchListTile(
-              title: Text("Dark Mode"),
-              value: Provider.of<ThemeProvider>(context)
-                  .isDarkMode, // ✅ تأكد إنه يستمع للتغيير
-              onChanged: (value) {
-                Provider.of<ThemeProvider>(context, listen: false)
-                    .toggleTheme();
-              },
-            ),
-            SizedBox(height: 10),
-            Text("Language",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            DropdownButton<String>(
-              value: selectedLanguage,
-              onChanged: (String? newValue) {
-                if (newValue != null) {
-                  _updateLanguage(newValue);
-                }
-              },
-              items: ["English", "العربية"].map((String lang) {
-                return DropdownMenuItem<String>(
-                  value: lang,
-                  child: Text(lang),
-                );
-              }).toList(),
-            ),
-            SizedBox(height: 20),
             ListTile(
-              title: Text("About App"),
-              leading: Icon(Icons.info),
-              onTap: () {
-                showAboutDialog(
-                  context: context,
-                  applicationName: "Vital Signs App",
-                  applicationVersion: "1.0.0",
-                  applicationLegalese: "Developed by علياء",
-                );
-              },
-            ),
-            Divider(),
-            ListTile(
-              title: Text("Rate the App"),
-              subtitle:
-                  Text("Average Rating: ${averageRating.toStringAsFixed(1)}"),
-              leading: Icon(
-                Icons.star_rate,
-                color: Theme.of(context).colorScheme.primary,
+              leading: Icon(Icons.dark_mode,
+                  color: Theme.of(context).colorScheme.primary),
+              title: Text(S.of(context).dark_mode),
+              trailing: Switch(
+                value: isDarkMode,
+                onChanged: (value) {
+                  themeProvider.toggleTheme();
+                },
               ),
+            ),
+            Divider(color: isDarkMode ? Colors.grey : Colors.black),
+            ListTile(
+              leading: Icon(Icons.language,
+                  color: Theme.of(context).colorScheme.primary),
+              title: Text(S.of(context).language),
+              subtitle: Text(getLanguageName(
+                  Provider.of<LocaleProvider>(context).locale.languageCode)),
+              onTap: _showLanguageDialog,
+            ),
+            Divider(color: isDarkMode ? Colors.grey : Colors.black),
+            ListTile(
+              leading: Icon(Icons.info,
+                  color: Theme.of(context).colorScheme.primary),
+              title: Text(S.of(context).about_app),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text(S.of(context).about_app),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(S.of(context).app_title),
+                          SizedBox(height: 8),
+                          Text("${S.of(context).version}: 1.0.0"),
+                          SizedBox(height: 8),
+                          Text("${S.of(context).developedBy}: 'THM' team"),
+                        ],
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text(S.of(context).close),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+            Divider(color: isDarkMode ? Colors.grey : Colors.black),
+            ListTile(
+              leading: Icon(Icons.star_rate,
+                  color: Theme.of(context).colorScheme.primary),
+              title: Text(S.of(context).rate_app),
+              subtitle: Text(
+                  "${S.of(context).average_rating}: ${averageRating.toStringAsFixed(1)}"),
               onTap: _showRatingDialog,
             ),
           ],

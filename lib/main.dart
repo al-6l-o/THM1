@@ -6,6 +6,10 @@ import 'package:t_h_m/Screens/add_beds/add_beds_screen.dart';
 import 'Screens/welcome/welcome_screen.dart';
 import 'Providers/theme_provider.dart';
 import 'package:t_h_m/Theme/app_theme.dart';
+import 'theme/theme_helper.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:t_h_m/generated/l10n.dart';
+import 'package:t_h_m/Providers/localization.dart'; // استيراد الملف
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,10 +24,14 @@ void main() async {
   // }
 
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => ThemeProvider(),
+    MultiProvider(
+      // استخدام MultiProvider لتوفير أكثر من مزود
+      providers: [
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(
+            create: (context) => LocaleProvider()), // إضافة LocaleProvider
+      ],
       child: MyApp(),
-      //isFirstTime: isFirstTime   هذا السطر داخل اقواس MyApp
     ),
   );
 }
@@ -35,12 +43,31 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final localeProvider =
+        Provider.of<LocaleProvider>(context); // استخدام LocaleProvider
+    ThemeHelper.setNavigationBarColor(context);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
       theme: AppTheme.lightTheme, // استخدام الثيم الفاتح
       darkTheme: AppTheme.darkTheme, // استخدام الثيم الداكن
+      builder: (context, child) {
+        ThemeHelper.setNavigationBarColor(context); // ✅ ضبط لون شريط التنقل
+        return child!;
+      },
+      locale: Provider.of<LocaleProvider>(context)
+          .locale, // هذا يجب أن يعمل الآن بدون أخطاء
+      supportedLocales: [
+        Locale('en', 'US'), // الإنجليزية
+        Locale('ar', 'SA'), // العربية
+      ],
+      localizationsDelegates: [
+        S.delegate, // إضافة محول اللغات
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       home:
           // isFirstTime ?
           WelcomeScreen(),

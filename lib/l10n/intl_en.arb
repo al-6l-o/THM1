@@ -1,0 +1,21 @@
+{
+  "@@locale": "en",
+  "app_title": "Tele Health Monitoring",
+  "settings": "Settings",
+  "dark_mode": "Dark Mode",
+  "language": "Language",
+  "about_app": "About App",
+  "rate_app": "Rate the App",
+  "select_language": "Select Language",
+  "english": "English",
+  "arabic": "Arabic",
+  "cancel": "Cancel",
+  "submit": "Submit",
+  "app_settings": "App Settings",
+  "version": "Version",
+  "developedBy": "Developed By",
+  "close": " Close",
+  "average_rating": " Average Rating"
+
+
+}
