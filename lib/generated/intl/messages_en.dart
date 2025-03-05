@@ -23,20 +23,91 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about_app": MessageLookupByLibrary.simpleMessage("About App"),
+    "add": MessageLookupByLibrary.simpleMessage("Add"),
+    "add_patient": MessageLookupByLibrary.simpleMessage("Add patient"),
+    "added_successfully": MessageLookupByLibrary.simpleMessage(
+      "added successfully",
+    ),
+    "age": MessageLookupByLibrary.simpleMessage("Age"),
     "app_settings": MessageLookupByLibrary.simpleMessage("App Settings"),
     "app_title": MessageLookupByLibrary.simpleMessage("Tele Health Monitoring"),
     "arabic": MessageLookupByLibrary.simpleMessage("Arabic"),
     "average_rating": MessageLookupByLibrary.simpleMessage(" Average Rating"),
+    "bed": MessageLookupByLibrary.simpleMessage("Bed"),
+    "bed_exists": MessageLookupByLibrary.simpleMessage(
+      "Bed number already exists!",
+    ),
+    "bed_number": MessageLookupByLibrary.simpleMessage("Bed Number"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "close": MessageLookupByLibrary.simpleMessage(" Close"),
+    "confirm_deleted_bed": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to delet this bed?",
+    ),
+    "confirm_exit": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to exit?",
+    ),
     "dark_mode": MessageLookupByLibrary.simpleMessage("Dark Mode"),
+    "delet": MessageLookupByLibrary.simpleMessage("Delet"),
+    "deleted_successfully": MessageLookupByLibrary.simpleMessage(
+      " Bed deleted successfully!",
+    ),
     "developedBy": MessageLookupByLibrary.simpleMessage("Developed By"),
+    "doctor_name": MessageLookupByLibrary.simpleMessage("Doctor Name"),
     "english": MessageLookupByLibrary.simpleMessage("English"),
+    "enter_another_number": MessageLookupByLibrary.simpleMessage(
+      "Please Enter Another Number",
+    ),
+    "exit_app": MessageLookupByLibrary.simpleMessage("Exit App"),
+    "female": MessageLookupByLibrary.simpleMessage("Female"),
+    "gender": MessageLookupByLibrary.simpleMessage("Gender"),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
+    "male": MessageLookupByLibrary.simpleMessage("Male"),
+    "maximum_beds_reached": MessageLookupByLibrary.simpleMessage(
+      "Maximum number of beds reached!",
+    ),
+    "name": MessageLookupByLibrary.simpleMessage("Name"),
+    "no": MessageLookupByLibrary.simpleMessage("No"),
+    "no_beds_yet": MessageLookupByLibrary.simpleMessage(
+      "There are no beds added yet!",
+    ),
+    "ok": MessageLookupByLibrary.simpleMessage("Ok"),
+    "patient_id": MessageLookupByLibrary.simpleMessage("Patient ID"),
+    "patient_informatins": MessageLookupByLibrary.simpleMessage(
+      "Patient Informatins",
+    ),
+    "patient_settings": MessageLookupByLibrary.simpleMessage(
+      "Patient Settings",
+    ),
+    "phone_9": MessageLookupByLibrary.simpleMessage(
+      "Phone number must be 9 digits",
+    ),
+    "phone_number": MessageLookupByLibrary.simpleMessage("Phone Number"),
+    "please_age": MessageLookupByLibrary.simpleMessage("Please enter age"),
+    "please_bed_number": MessageLookupByLibrary.simpleMessage(
+      "Please enter the bed number",
+    ),
+    "please_doctor_name": MessageLookupByLibrary.simpleMessage(
+      "Please enter doctor name",
+    ),
+    "please_id": MessageLookupByLibrary.simpleMessage(
+      "Please enter patient ID",
+    ),
+    "please_name": MessageLookupByLibrary.simpleMessage("Please enter a name"),
+    "please_phone": MessageLookupByLibrary.simpleMessage(
+      "Please enter phone number",
+    ),
+    "pre": MessageLookupByLibrary.simpleMessage("+967"),
     "rate_app": MessageLookupByLibrary.simpleMessage("Rate the App"),
+    "save": MessageLookupByLibrary.simpleMessage("Save"),
     "select_language": MessageLookupByLibrary.simpleMessage("Select Language"),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "submit": MessageLookupByLibrary.simpleMessage("Submit"),
+    "update_failed": MessageLookupByLibrary.simpleMessage("Update failed"),
+    "updated_successfully": MessageLookupByLibrary.simpleMessage(
+      "Updated successfully!",
+    ),
     "version": MessageLookupByLibrary.simpleMessage("Version"),
+    "vital_signs": MessageLookupByLibrary.simpleMessage("Vital Signs"),
+    "yes": MessageLookupByLibrary.simpleMessage("Yes"),
   };
 }

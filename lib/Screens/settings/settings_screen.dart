@@ -245,7 +245,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           SizedBox(height: 8),
                           Text("${S.of(context).version}: 1.0.0"),
                           SizedBox(height: 8),
-                          Text("${S.of(context).developedBy}: 'THM' team"),
+                          Text("${S.of(context).developedBy}: THM team"),
                         ],
                       ),
                       actions: [

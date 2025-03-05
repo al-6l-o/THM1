@@ -16,7 +16,72 @@
   "version": "الإصدار",
   "developedBy": "تم تطويره بواسطة",
   "close": "إغلاق",
-  "average_rating": "متوسط التقييم"
+  "average_rating": "متوسط التقييم",
+  "added_successfully": " تمت الإضافة بنجاح",
+  "deleted_successfully": "تم حذف السرير بنجاح",
+  "confirm_deleted_bed": "هل أنت متأكد أنك تريد حذف هذا السرير؟",
+  "delet": "حذف",
+  "maximum_beds_reached": "تم الوصول إلى الحد الأقصى لعدد الأسرة",
+  "add_patient": "إضافة مريض",
+  "bed_number": "رقم السرير",
+  "please_bed_number": "يرجى إدخال رقم السرير",
+  "name": "الإسم",
+  "please_name": "يرجى إدخال الإسم",
+  "age": "العمر",
+  "please_age": "يرجى إدخال العمر",
+  "gender": "الجنس",
+  "male": "ذكر",
+  "female": "أنثى",
+  "phone_number": "رقم الهاتف",
+  "pre": "+٩٦٧",
+  "please_phone": "يرجى إدخال رقم الهاتف",
+  "phone_9": " يجب أن يتكون رقم الهاتف من ٩ أرقام",
+  "bed_exists": "رقم السرير موجود بالفعل ",
+  "add": "إضافة",
+  "no_beds_yet": " لا توجد أسرة حتى الان ",
+  "bed": "سرير",
+  "exit_app": "الخروج من التطبيق",
+  "confirm_exit": "هل أنت متأكد أنك تريد الخروج من التطبيق ؟",
+  "yes": "نعم",
+  "no": "لا",
+  "updated_successfully": "تم التحديث بنجاح",
+  "update_failed": "فشل التحديث",
+  "enter_another_number": "يرجى إدخال رقم اخر",
+  "ok": "موافق",
+  "patient_informatins": "معلومات المريض",
+  "save": "حفظ",
+  "vital_signs": "العلامات الحيوية",
+  "patient_settings": "اعدادات المريض",
+  "patient_id": "رقم المريض",
+  "please_id": "يرجى ادخال رقم المريض",
+  "doctor_name": "اسم الدكتور",
+  "please_doctor_name": "يرجى إدخال إسم الدكتور"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

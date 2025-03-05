@@ -15,7 +15,53 @@
   "version": "Version",
   "developedBy": "Developed By",
   "close": " Close",
-  "average_rating": " Average Rating"
+  "average_rating": " Average Rating",
+  "added_successfully": "added successfully",
+  "deleted_successfully": " Bed deleted successfully!",
+  "confirm_deleted_bed": "Are you sure you want to delet this bed?",
+  "delet": "Delet",
+  "maximum_beds_reached": "Maximum number of beds reached!",
+  "add_patient": "Add patient",
+  "bed_number": "Bed Number",
+  "please_bed_number": "Please enter the bed number",
+  "name": "Name",
+  "please_name": "Please enter a name",
+  "age": "Age",
+  "please_age": "Please enter age",
+  "gender": "Gender",
+  "male": "Male",
+  "female": "Female",
+  "phone_number": "Phone Number",
+  "pre": "+967",
+  "please_phone": "Please enter phone number",
+  "phone_9": "Phone number must be 9 digits",
+  "bed_exists": "Bed number already exists!",
+  "add": "Add",
+  "no_beds_yet": "There are no beds added yet!",
+  "bed": "Bed",
+  "exit_app": "Exit App",
+  "confirm_exit": "Are you sure you want to exit?",
+  "yes": "Yes",
+  "no": "No",
+  "updated_successfully": "Updated successfully!",
+  "update_failed": "Update failed",
+  "enter_another_number": "Please Enter Another Number",
+  "ok": "Ok",
+  "patient_informatins": "Patient Informatins",
+  "save": "Save",
+  "vital_signs": "Vital Signs",
+  "patient_settings": "Patient Settings",
+  "patient_id": "Patient ID",
+  "please_id": "Please enter patient ID",
+  "doctor_name": "Doctor Name",
+  "please_doctor_name": "Please enter doctor name"
+
+
+
+
+
+
+
 
 
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:t_h_m/Constants/colors.dart';
 import 'package:t_h_m/Screens/Patient_info/patient_info.dart';
+import 'package:t_h_m/generated/l10n.dart';
 
 class VitalSignsScreen extends StatelessWidget {
   final String bedNumber;
@@ -20,42 +21,13 @@ class VitalSignsScreen extends StatelessWidget {
     required this.phoneNumber,
   }) : super(key: key);
 
-  void _showPatientInfoDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Patient Information'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Number: $bedNumber"),
-              Text("Name: $bedName"),
-              Text("Age: $age"),
-              Text("Gender: $gender"),
-              Text("Phone: $phoneNumber"),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text('Close',
-                  style: TextStyle(color: AppColors.primaryColor)),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(
-          'Vital Signs',
+          S.of(context).vital_signs,
           style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -82,7 +54,7 @@ class VitalSignsScreen extends StatelessWidget {
               alignment: Alignment.centerLeft,
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Text(
-                "Patient Settings",
+                S.of(context).patient_settings,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onPrimary,
                   fontSize: 22, // تصغير حجم النص قليلاً
@@ -100,7 +72,7 @@ class VitalSignsScreen extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    "Patient Info",
+                    S.of(context).patient_informatins,
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.onPrimary,
                         fontSize: 18),
