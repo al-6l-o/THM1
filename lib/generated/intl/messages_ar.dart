@@ -22,6 +22,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "Confirm": MessageLookupByLibrary.simpleMessage("تأكيد"),
     "about_app": MessageLookupByLibrary.simpleMessage("حول التطبيق"),
     "add": MessageLookupByLibrary.simpleMessage("إضافة"),
     "add_patient": MessageLookupByLibrary.simpleMessage("إضافة مريض"),
@@ -46,8 +47,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "confirm_exit": MessageLookupByLibrary.simpleMessage(
       "هل أنت متأكد أنك تريد الخروج من التطبيق ؟",
     ),
+    "confirm_modification_content": MessageLookupByLibrary.simpleMessage(
+      " ادخل الرقم للتعديل",
+    ),
+    "confirm_modification_title": MessageLookupByLibrary.simpleMessage(
+      "تأكيد التعديل",
+    ),
     "dark_mode": MessageLookupByLibrary.simpleMessage("الوضع الداكن"),
-    "delet": MessageLookupByLibrary.simpleMessage("حذف"),
+    "delete": MessageLookupByLibrary.simpleMessage("حذف"),
     "deleted_successfully": MessageLookupByLibrary.simpleMessage(
       "تم حذف السرير بنجاح",
     ),
@@ -65,14 +72,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "maximum_beds_reached": MessageLookupByLibrary.simpleMessage(
       "تم الوصول إلى الحد الأقصى لعدد الأسرة",
     ),
+    "message_incorrect_number": MessageLookupByLibrary.simpleMessage(
+      "رقم غير صحيح",
+    ),
     "name": MessageLookupByLibrary.simpleMessage("الإسم"),
     "no": MessageLookupByLibrary.simpleMessage("لا"),
     "no_beds_yet": MessageLookupByLibrary.simpleMessage(
       " لا توجد أسرة حتى الان ",
     ),
     "ok": MessageLookupByLibrary.simpleMessage("موافق"),
-    "patient_id": MessageLookupByLibrary.simpleMessage("رقم المريض"),
-    "patient_informatins": MessageLookupByLibrary.simpleMessage(
+    "patientId": MessageLookupByLibrary.simpleMessage("رقم المريض"),
+    "patient_informations": MessageLookupByLibrary.simpleMessage(
       "معلومات المريض",
     ),
     "patient_settings": MessageLookupByLibrary.simpleMessage("اعدادات المريض"),
@@ -87,7 +97,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "please_doctor_name": MessageLookupByLibrary.simpleMessage(
       "يرجى إدخال إسم الدكتور",
     ),
-    "please_id": MessageLookupByLibrary.simpleMessage("يرجى ادخال رقم المريض"),
     "please_name": MessageLookupByLibrary.simpleMessage("يرجى إدخال الإسم"),
     "please_phone": MessageLookupByLibrary.simpleMessage(
       "يرجى إدخال رقم الهاتف",

@@ -180,19 +180,19 @@ class S {
     );
   }
 
-  /// `Are you sure you want to delet this bed?`
+  /// `Are you sure you want to delete this bed?`
   String get confirm_deleted_bed {
     return Intl.message(
-      'Are you sure you want to delet this bed?',
+      'Are you sure you want to delete this bed?',
       name: 'confirm_deleted_bed',
       desc: '',
       args: [],
     );
   }
 
-  /// `Delet`
-  String get delet {
-    return Intl.message('Delet', name: 'delet', desc: '', args: []);
+  /// `Delete`
+  String get delete {
+    return Intl.message('Delete', name: 'delete', desc: '', args: []);
   }
 
   /// `Maximum number of beds reached!`
@@ -395,11 +395,11 @@ class S {
     return Intl.message('Ok', name: 'ok', desc: '', args: []);
   }
 
-  /// `Patient Informatins`
-  String get patient_informatins {
+  /// `Patient Informations`
+  String get patient_informations {
     return Intl.message(
-      'Patient Informatins',
-      name: 'patient_informatins',
+      'Patient Informations',
+      name: 'patient_informations',
       desc: '',
       args: [],
     );
@@ -425,21 +425,6 @@ class S {
     );
   }
 
-  /// `Patient ID`
-  String get patient_id {
-    return Intl.message('Patient ID', name: 'patient_id', desc: '', args: []);
-  }
-
-  /// `Please enter patient ID`
-  String get please_id {
-    return Intl.message(
-      'Please enter patient ID',
-      name: 'please_id',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Doctor Name`
   String get doctor_name {
     return Intl.message('Doctor Name', name: 'doctor_name', desc: '', args: []);
@@ -453,6 +438,46 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `Patient ID`
+  String get patientId {
+    return Intl.message('Patient ID', name: 'patientId', desc: '', args: []);
+  }
+
+  /// ` Confirm Edit `
+  String get confirm_modification_title {
+    return Intl.message(
+      ' Confirm Edit ',
+      name: 'confirm_modification_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter the number to edit`
+  String get confirm_modification_content {
+    return Intl.message(
+      'Enter the number to edit',
+      name: 'confirm_modification_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Incorrect Number`
+  String get message_incorrect_number {
+    return Intl.message(
+      'Incorrect Number',
+      name: 'message_incorrect_number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm`
+  String get Confirm {
+    return Intl.message('Confirm', name: 'Confirm', desc: '', args: []);
   }
 }
 

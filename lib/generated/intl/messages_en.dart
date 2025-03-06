@@ -22,6 +22,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "Confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
     "about_app": MessageLookupByLibrary.simpleMessage("About App"),
     "add": MessageLookupByLibrary.simpleMessage("Add"),
     "add_patient": MessageLookupByLibrary.simpleMessage("Add patient"),
@@ -41,13 +42,19 @@ class MessageLookup extends MessageLookupByLibrary {
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "close": MessageLookupByLibrary.simpleMessage(" Close"),
     "confirm_deleted_bed": MessageLookupByLibrary.simpleMessage(
-      "Are you sure you want to delet this bed?",
+      "Are you sure you want to delete this bed?",
     ),
     "confirm_exit": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to exit?",
     ),
+    "confirm_modification_content": MessageLookupByLibrary.simpleMessage(
+      "Enter the number to edit",
+    ),
+    "confirm_modification_title": MessageLookupByLibrary.simpleMessage(
+      " Confirm Edit ",
+    ),
     "dark_mode": MessageLookupByLibrary.simpleMessage("Dark Mode"),
-    "delet": MessageLookupByLibrary.simpleMessage("Delet"),
+    "delete": MessageLookupByLibrary.simpleMessage("Delete"),
     "deleted_successfully": MessageLookupByLibrary.simpleMessage(
       " Bed deleted successfully!",
     ),
@@ -65,15 +72,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "maximum_beds_reached": MessageLookupByLibrary.simpleMessage(
       "Maximum number of beds reached!",
     ),
+    "message_incorrect_number": MessageLookupByLibrary.simpleMessage(
+      "Incorrect Number",
+    ),
     "name": MessageLookupByLibrary.simpleMessage("Name"),
     "no": MessageLookupByLibrary.simpleMessage("No"),
     "no_beds_yet": MessageLookupByLibrary.simpleMessage(
       "There are no beds added yet!",
     ),
     "ok": MessageLookupByLibrary.simpleMessage("Ok"),
-    "patient_id": MessageLookupByLibrary.simpleMessage("Patient ID"),
-    "patient_informatins": MessageLookupByLibrary.simpleMessage(
-      "Patient Informatins",
+    "patientId": MessageLookupByLibrary.simpleMessage("Patient ID"),
+    "patient_informations": MessageLookupByLibrary.simpleMessage(
+      "Patient Informations",
     ),
     "patient_settings": MessageLookupByLibrary.simpleMessage(
       "Patient Settings",
@@ -88,9 +98,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "please_doctor_name": MessageLookupByLibrary.simpleMessage(
       "Please enter doctor name",
-    ),
-    "please_id": MessageLookupByLibrary.simpleMessage(
-      "Please enter patient ID",
     ),
     "please_name": MessageLookupByLibrary.simpleMessage("Please enter a name"),
     "please_phone": MessageLookupByLibrary.simpleMessage(

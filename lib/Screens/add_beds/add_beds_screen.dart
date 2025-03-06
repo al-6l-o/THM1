@@ -18,13 +18,13 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
 
   final _formKey = GlobalKey<FormState>();
   bool isLoading = true;
-  String patientId = '';
-  String doctorName = '';
   String bedNumber = '';
   String bedName = '';
   String age = '';
   String gender = 'Male';
   String phoneNumber = '';
+  String doctorName = '';
+
   String? errorMessage; // تغيير نوع المتغير ليسمح بالقيم الفارغة
 
   void _showSuccessAnimation() {
@@ -119,7 +119,7 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
                 _deleteBed(bedId); // استدعاء دالة الحذف
                 Navigator.of(context).pop(); // إغلاق النافذة بعد الحذف
               },
-              child: Text(S.of(context).delet,
+              child: Text(S.of(context).delete,
                   style: TextStyle(color: Theme.of(context).colorScheme.error)),
             ),
           ],
@@ -176,17 +176,6 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      TextFormField(
-                        decoration:
-                            customInputDecoration(S.of(context).patient_id),
-                        cursorColor: Theme.of(context).colorScheme.primary,
-                        style: TextStyle(
-                            color:
-                                Theme.of(context).textTheme.bodyMedium?.color),
-                        validator: (value) =>
-                            value!.isEmpty ? S.of(context).please_id : null,
-                        onSaved: (value) => bedName = value!,
-                      ),
                       TextFormField(
                         decoration:
                             customInputDecoration(S.of(context).bed_number),
@@ -285,18 +274,21 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
                         decoration:
                             customInputDecoration(S.of(context).phone_number)
                                 .copyWith(
-                          prefixText: S.of(context).pre,
+                          prefixText: S.of(context).pre, // رمز أو رقم البلد هنا
                           prefixStyle: TextStyle(
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.color),
+                            color: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.color, // نفس لون النص
+                            fontSize: 16.0, // تحديد حجم الخط ليكون موحدًا
+                          ),
                         ),
                         keyboardType: TextInputType.phone,
                         cursorColor: Theme.of(context).colorScheme.primary,
                         style: TextStyle(
-                            color:
-                                Theme.of(context).textTheme.bodyMedium?.color),
+                          color: Theme.of(context).textTheme.bodyMedium?.color,
+                          fontSize: 16.0, // نفس حجم الخط لحقل الإدخال
+                        ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return S.of(context).please_phone;
@@ -318,7 +310,7 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
                         validator: (value) => value!.isEmpty
                             ? S.of(context).please_doctor_name
                             : null,
-                        onSaved: (value) => bedName = value!,
+                        onSaved: (value) => doctorName = value!,
                       ),
                     ],
                   ),
@@ -354,7 +346,7 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
 
 // حفظ بيانات السرير
                     saveBedData(bedNumber, bedName, int.tryParse(age) ?? 0,
-                        gender, phoneNumber);
+                        gender, phoneNumber, doctorName);
 
 // عرض أنيميشن النجاح بعد إغلاق نافذة الإدخال
                     Future.delayed(Duration(milliseconds: 300), () {
@@ -386,13 +378,35 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
     int age,
     String gender,
     String phoneNumber,
+    String doctorName,
   ) async {
+// الحصول على العداد الحالي من Firebase
+    DocumentSnapshot counterSnapshot = await FirebaseFirestore.instance
+        .collection('settings')
+        .doc('counter')
+        .get();
+    int currentCounter =
+        counterSnapshot.exists ? counterSnapshot['patientId'] : 0;
+
+    // زيادة العداد للحصول على id تصاعدي جديد
+    int newPatientId = currentCounter + 1;
+
+    // تحديث العداد في Firebase ليكون الرقم التالي
+    await FirebaseFirestore.instance
+        .collection('settings')
+        .doc('counter')
+        .update({
+      'patientId': newPatientId,
+    });
+
     FirebaseFirestore.instance.collection('beds').add({
+      'patientId': newPatientId,
       'bedNumber': bedNumber,
       'bedName': bedName,
       'age': age,
       'gender': gender,
       'phoneNumber': phoneNumber,
+      'doctorName': doctorName,
       'timestamp': FieldValue.serverTimestamp(),
     });
   }
@@ -459,7 +473,7 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
                 var bed = beds[index];
                 var bedData = bed.data() as Map<String, dynamic>?;
 
-                return GestureDetector(
+                return InkWell(
                   onTap: () {
                     Navigator.push(
                       context,
@@ -471,6 +485,7 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
                           age: bedData?['age'] ?? 0,
                           gender: bedData?['gender'] ?? 'Unknown',
                           phoneNumber: bedData?['phoneNumber'] ?? 'Unknown',
+                          doctorName: bedData?['doctorName'] ?? 'Unknown',
                         ),
                       ),
                     );

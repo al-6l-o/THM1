@@ -10,6 +10,7 @@ class VitalSignsScreen extends StatelessWidget {
   final int age;
   final String gender;
   final String phoneNumber;
+  final String doctorName;
 
   const VitalSignsScreen({
     Key? key,
@@ -19,6 +20,7 @@ class VitalSignsScreen extends StatelessWidget {
     required this.age,
     required this.gender,
     required this.phoneNumber,
+    required this.doctorName,
   }) : super(key: key);
 
   @override
@@ -35,7 +37,7 @@ class VitalSignsScreen extends StatelessWidget {
         actions: [
           Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.settings,
+              icon: Icon(Icons.menu,
                   color: Theme.of(context).colorScheme.onPrimary),
               onPressed: () {
                 Scaffold.of(context).openEndDrawer(); // فتح القائمة الجانبية
@@ -72,7 +74,7 @@ class VitalSignsScreen extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    S.of(context).patient_informatins,
+                    S.of(context).patient_informations,
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.onPrimary,
                         fontSize: 18),
@@ -91,6 +93,7 @@ class VitalSignsScreen extends StatelessWidget {
                       age: age,
                       gender: gender,
                       phoneNumber: phoneNumber,
+                      doctorName: doctorName,
                     ),
                   ),
                 );

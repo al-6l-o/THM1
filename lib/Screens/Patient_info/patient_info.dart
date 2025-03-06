@@ -12,6 +12,7 @@ class PatientInfoScreen extends StatefulWidget {
   final int age;
   final String gender;
   final String phoneNumber;
+  final String doctorName;
 
   const PatientInfoScreen({
     Key? key,
@@ -21,6 +22,7 @@ class PatientInfoScreen extends StatefulWidget {
     required this.age,
     required this.gender,
     required this.phoneNumber,
+    required this.doctorName,
   }) : super(key: key);
 
   @override
@@ -32,18 +34,43 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
   late TextEditingController _nameController;
   late TextEditingController _ageController;
   late TextEditingController _phoneController;
+  late TextEditingController _doctorNameController;
+
   bool _isEditing = false;
+  bool _isError = false; // متغير لحالة الخطأ
+  String _errorMessage = ''; // نص رسالة الخطأ
+
   late String _originalBedNumber,
       _originalName,
       _originalAge,
       _originalGender,
-      _originalPhone;
+      _originalPhone,
+      _originaldoctorName;
+
   late String _selectedGender;
+  late int _patientId;
+  late Future<int> _loadPatientIdFuture; // تعريف المتغير
 
   @override
   void initState() {
     super.initState();
+    _loadPatientIdFuture = _loadPatientId(); // تعيين دالة التحميل
     _initializeControllers();
+  }
+
+  Future<int> _loadPatientId() async {
+    // تعديل الدالة لتُرجع int
+    try {
+      DocumentSnapshot counterDoc = await FirebaseFirestore.instance
+          .collection('beds')
+          .doc(widget.docId)
+          .get();
+
+      return counterDoc['patientId']; // إرجاع الـ patientId كقيمة صحيحة
+    } catch (e) {
+      print('Error loading patientId: $e');
+      return 0; // إرجاع 0 في حال حدوث خطأ
+    }
   }
 
   void _initializeControllers() {
@@ -51,6 +78,8 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
     _nameController = TextEditingController(text: widget.bedName);
     _ageController = TextEditingController(text: widget.age.toString());
     _phoneController = TextEditingController(text: widget.phoneNumber);
+    _doctorNameController = TextEditingController(text: widget.doctorName);
+
     _selectedGender = widget.gender;
 
     _originalBedNumber = widget.bedNumber;
@@ -58,6 +87,7 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
     _originalAge = widget.age.toString();
     _originalGender = widget.gender;
     _originalPhone = widget.phoneNumber;
+    _originaldoctorName = widget.doctorName;
   }
 
   @override
@@ -66,6 +96,8 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
     _nameController.dispose();
     _ageController.dispose();
     _phoneController.dispose();
+    _doctorNameController.dispose();
+
     super.dispose();
   }
 
@@ -103,6 +135,7 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
         'age': int.tryParse(_ageController.text) ?? int.parse(_originalAge),
         'gender': _selectedGender,
         'phoneNumber': _phoneController.text.trim(),
+        'doctorName': _doctorNameController.text.trim(),
       }).then((_) {
         setState(() {
           _isEditing = false;
@@ -111,6 +144,7 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
           _originalAge = _ageController.text;
           _originalGender = _selectedGender;
           _originalPhone = _phoneController.text;
+          _originaldoctorName = _doctorNameController.text;
         });
 
         ScaffoldMessenger.of(context).showSnackBar(
@@ -143,7 +177,8 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
         return AlertDialog(
           title: Text(
             S.of(context).bed_exists,
-            style: TextStyle(color: AppColors.warningColor, fontSize: 20),
+            style: TextStyle(
+                color: Theme.of(context).colorScheme.error, fontSize: 20),
           ),
           content: Text(
             S.of(context).enter_another_number,
@@ -172,11 +207,13 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
   void _cancelEditing() {
     setState(() {
       _isEditing = false;
+
       _bedNumberController.text = _originalBedNumber;
       _nameController.text = _originalName;
       _ageController.text = _originalAge;
       _selectedGender = _originalGender;
       _phoneController.text = _originalPhone;
+      _doctorNameController.text = _originaldoctorName;
     });
   }
 
@@ -188,13 +225,85 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
     return true;
   }
 
+  void _showEditDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        bool isError = false;
+        String errorMessage = "";
+        bool isEditing = false; // يتحكم في تفعيل التعديل
+        TextEditingController codeController = TextEditingController();
+
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Text(
+                S.of(context).confirm_modification_title,
+                style: TextStyle(
+                    fontSize: 18, color: Theme.of(context).primaryColor),
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(height: 10),
+                  TextField(
+                    controller: codeController,
+                    decoration: InputDecoration(
+                      labelText: S.of(context).confirm_modification_content,
+                      labelStyle: TextStyle(fontSize: 14),
+                      errorText: isError
+                          ? errorMessage
+                          : null, // يظهر الخطأ فقط عند الضغط على تأكيد
+                    ),
+                    keyboardType: TextInputType.number,
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    if (codeController.text == "1234") {
+                      Navigator.of(context).pop(true); // إرجاع true عند النجاح
+                    } else {
+                      setState(() {
+                        isError = true;
+                        errorMessage = S.of(context).message_incorrect_number;
+                      });
+                    }
+                  },
+                  child: Text(S.of(context).Confirm),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                  child: Text(
+                    S.of(context).cancel,
+                    style:
+                        TextStyle(color: Theme.of(context).colorScheme.error),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    ).then((isVerified) {
+      if (isVerified == true) {
+        setState(() {
+          _isEditing = true; // تفعيل التعديل بعد إغلاق الـ Dialog بنجاح
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(S.of(context).patient_informatins,
+          title: Text(S.of(context).patient_informations,
               style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
           backgroundColor: AppColors.primaryColor,
           iconTheme:
@@ -210,6 +319,37 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // استخدم FutureBuilder لانتظار تحميل patientId
+                FutureBuilder<int>(
+                  future: _loadPatientIdFuture, // تمرير future من النوع int
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator(); // عرض مؤشر تحميل
+                    } else if (snapshot.hasError) {
+                      return Text(
+                          'Error: ${snapshot.error}'); // في حال حدوث خطأ
+                    } else {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${S.of(context).patientId} : ${snapshot.data}', // عرض Patient ID بعد تحميلها
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.color,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                              height:
+                                  20), // إضافة مسافة بين Patient ID وبقية الحقول
+                        ],
+                      );
+                    }
+                  },
+                ),
                 _buildTextField(S.of(context).bed_number, _bedNumberController,
                     originalValue: _originalBedNumber),
                 _buildTextField(S.of(context).name, _nameController,
@@ -219,6 +359,9 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
                 _buildGenderSelector(),
                 _buildTextField(S.of(context).phone_number, _phoneController,
                     originalValue: _originalPhone),
+                _buildTextField(
+                    S.of(context).doctor_name, _doctorNameController,
+                    originalValue: _originaldoctorName),
                 const SizedBox(height: 20),
                 if (_isEditing)
                   Row(
@@ -250,14 +393,12 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            setState(() {
-              _isEditing = true;
-            });
-          },
+          onPressed: _showEditDialog,
           backgroundColor: Theme.of(context).colorScheme.primary,
-          child:
-              Icon(Icons.edit, color: Theme.of(context).colorScheme.onPrimary),
+          child: Icon(
+            Icons.edit,
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
         ),
       ),
     );

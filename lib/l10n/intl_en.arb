@@ -18,8 +18,8 @@
   "average_rating": " Average Rating",
   "added_successfully": "added successfully",
   "deleted_successfully": " Bed deleted successfully!",
-  "confirm_deleted_bed": "Are you sure you want to delet this bed?",
-  "delet": "Delet",
+  "confirm_deleted_bed": "Are you sure you want to delete this bed?",
+  "delete": "Delete",
   "maximum_beds_reached": "Maximum number of beds reached!",
   "add_patient": "Add patient",
   "bed_number": "Bed Number",
@@ -47,18 +47,17 @@
   "update_failed": "Update failed",
   "enter_another_number": "Please Enter Another Number",
   "ok": "Ok",
-  "patient_informatins": "Patient Informatins",
+  "patient_informations": "Patient Informations",
   "save": "Save",
   "vital_signs": "Vital Signs",
   "patient_settings": "Patient Settings",
-  "patient_id": "Patient ID",
-  "please_id": "Please enter patient ID",
   "doctor_name": "Doctor Name",
-  "please_doctor_name": "Please enter doctor name"
-
-
-
-
+  "please_doctor_name": "Please enter doctor name",
+  "patientId": "Patient ID",
+  "confirm_modification_title": " Confirm Edit ",
+  "confirm_modification_content": "Enter the number to edit",
+  "message_incorrect_number": "Incorrect Number",
+  "Confirm": "Confirm"
 
 
 
