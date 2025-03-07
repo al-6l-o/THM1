@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:t_h_m/Constants/colors.dart';
-import 'package:t_h_m/Screens/Patient_info/patient_info.dart';
+import 'package:t_h_m/Screens/Patient_info/patient_info_screen.dart';
 import 'package:t_h_m/generated/l10n.dart';
+import 'vital_signs_card.dart';
 
 class VitalSignsScreen extends StatelessWidget {
   final String bedNumber;
@@ -40,7 +41,7 @@ class VitalSignsScreen extends StatelessWidget {
               icon: Icon(Icons.menu,
                   color: Theme.of(context).colorScheme.onPrimary),
               onPressed: () {
-                Scaffold.of(context).openEndDrawer(); // فتح القائمة الجانبية
+                Scaffold.of(context).openEndDrawer();
               },
             ),
           ),
@@ -51,7 +52,7 @@ class VitalSignsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: 90, // تقليل الارتفاع لجعل "Settings" أصغر
+              height: 90,
               color: Theme.of(context).colorScheme.primary,
               alignment: Alignment.centerLeft,
               padding: EdgeInsets.symmetric(horizontal: 16),
@@ -59,7 +60,7 @@ class VitalSignsScreen extends StatelessWidget {
                 S.of(context).patient_settings,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onPrimary,
-                  fontSize: 22, // تصغير حجم النص قليلاً
+                  fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -82,7 +83,7 @@ class VitalSignsScreen extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                Navigator.of(context).pop(); // إغلاق القائمة الجانبية
+                Navigator.of(context).pop();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -115,41 +116,6 @@ class VitalSignsScreen extends StatelessWidget {
                 icon: Icons.bubble_chart, label: 'Oxygen Level', value: '98%'),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class VitalSignCard extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final String value;
-
-  const VitalSignCard({
-    Key? key,
-    required this.icon,
-    required this.label,
-    required this.value,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      color: Theme.of(context).colorScheme.background,
-      child: ListTile(
-        leading: Icon(icon,
-            color: Theme.of(context).colorScheme.onBackground, size: 30),
-        title: Text(label,
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.onBackground)),
-        subtitle: Text(value,
-            style: TextStyle(
-                fontSize: 16,
-                color: Theme.of(context).colorScheme.onBackground)),
       ),
     );
   }

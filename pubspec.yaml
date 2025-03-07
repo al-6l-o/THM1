@@ -31,12 +31,12 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_native_splash: ^2.3.9
+  flutter_native_splash: ^2.4.4
   lottie: ^3.3.1
   shared_preferences: ^2.2.2
   provider: ^6.1.2
   flutter_localizations:
-    sdk: flutter  # تأكد من أنك تستخدم الحزمة الخاصة بـ Flutter بدون إصدار
+    sdk: flutter 
   intl: ^0.19.0
   intl_utils: ^2.0.0
 
@@ -46,8 +46,8 @@ dependencies:
   cloud_firestore: ^5.6.5
   firebase_core: ^3.12.1
   flutter_rating_bar: ^4.0.1
-  #flutter_secure_storage: ^5.0.2
-  #local_auth: ^2.1.0
+  #local_auth: ^2.0.0
+  #flutter_secure_storage: ^5.0.0
 
 
 
@@ -55,6 +55,12 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_intl: ^0.0.1
+  flutter_launcher_icons: 0.14.3
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo.png" 
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

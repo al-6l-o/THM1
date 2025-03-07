@@ -455,10 +455,10 @@ class S {
     );
   }
 
-  /// `Enter the number to edit`
+  /// `Enter the confirmation number to edit`
   String get confirm_modification_content {
     return Intl.message(
-      'Enter the number to edit',
+      'Enter the confirmation number to edit',
       name: 'confirm_modification_content',
       desc: '',
       args: [],

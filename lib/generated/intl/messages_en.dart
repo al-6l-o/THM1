@@ -48,7 +48,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Are you sure you want to exit?",
     ),
     "confirm_modification_content": MessageLookupByLibrary.simpleMessage(
-      "Enter the number to edit",
+      "Enter the confirmation number to edit",
     ),
     "confirm_modification_title": MessageLookupByLibrary.simpleMessage(
       " Confirm Edit ",

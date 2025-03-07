@@ -9,7 +9,7 @@ import 'package:t_h_m/Theme/app_theme.dart';
 import 'theme/theme_helper.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:t_h_m/generated/l10n.dart';
-import 'package:t_h_m/Providers/localization.dart'; // استيراد الملف
+import 'package:t_h_m/Providers/localization_provider.dart'; // استيراد الملف
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

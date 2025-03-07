@@ -55,7 +55,7 @@
   "please_doctor_name": "Please enter doctor name",
   "patientId": "Patient ID",
   "confirm_modification_title": " Confirm Edit ",
-  "confirm_modification_content": "Enter the number to edit",
+  "confirm_modification_content": "Enter the confirmation number to edit",
   "message_incorrect_number": "Incorrect Number",
   "Confirm": "Confirm"
 

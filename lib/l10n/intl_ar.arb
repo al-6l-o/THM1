@@ -56,7 +56,7 @@
   "please_doctor_name": "يرجى إدخال إسم الدكتور",
   "patientId": "رقم المريض",
   "confirm_modification_title": "تأكيد التعديل",
-  "confirm_modification_content": " ادخل الرقم للتعديل",
+  "confirm_modification_content": " ادخل رقم التأكيد للتعديل",
   "message_incorrect_number": "رقم غير صحيح",
   "Confirm": "تأكيد"
 

@@ -54,16 +54,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       'assets/animations/app.json'),
                   _buildPage(
                       'Get Started',
-                      'Press the button below to start using the app.',
+                      'Press the button below to start using the app...',
                       'assets/images/start.png'),
                 ],
               ),
             ),
-            SizedBox(height: 20), // مسافة بين الصفحات وزر "Start"
-            if (_currentIndex == 3) // يظهر الزر في الصفحة الرابعة فقط
+            SizedBox(height: 20),
+            if (_currentIndex == 3)
               ElevatedButton(
                 onPressed: () {
-                  // ✅ الانتقال إلى صفحة الأسرّة مباشرة بعد الضغط على زر "Start"
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => AddBedsScreen()),
@@ -71,13 +70,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.backgroundColor),
-                child: Text(
-                  'Start',
-                  style: TextStyle(color: AppColors.textColor),
-                ),
+                child:
+                    Text('Start', style: TextStyle(color: AppColors.textColor)),
               ),
             SizedBox(height: 20),
-            _buildIndicator(), // النقاط تظهر تحت الزر
+            _buildIndicator(),
             SizedBox(height: 20),
           ],
         ),
@@ -86,7 +83,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   }
 
   Widget _buildPage(String title, String content, String assetPath) {
-    bool isLottie = assetPath.endsWith('.json'); // التحقق إذا كان الملف لوتي
+    bool isLottie = assetPath.endsWith('.json');
 
     return Container(
       padding: EdgeInsets.all(16.0),
@@ -94,27 +91,21 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           isLottie
-              ? Lottie.asset(assetPath,
-                  width: 300, height: 300) // عرض أنيميشن لوتي
-              : Image.asset(assetPath,
-                  width: 350, height: 350), // عرض صورة عادية
+              ? Lottie.asset(assetPath, width: 300, height: 300)
+              : Image.asset(assetPath, width: 350, height: 350),
           SizedBox(height: 20),
           Text(
             title,
             style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              color: AppColors.textColor,
-            ),
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: AppColors.textColor),
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 20),
           Text(
             content,
-            style: TextStyle(
-              fontSize: 18,
-              color: AppColors.backgroundColor,
-            ),
+            style: TextStyle(fontSize: 18, color: AppColors.backgroundColor),
             textAlign: TextAlign.center,
           ),
         ],

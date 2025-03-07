@@ -48,7 +48,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "هل أنت متأكد أنك تريد الخروج من التطبيق ؟",
     ),
     "confirm_modification_content": MessageLookupByLibrary.simpleMessage(
-      " ادخل الرقم للتعديل",
+      " ادخل رقم التأكيد للتعديل",
     ),
     "confirm_modification_title": MessageLookupByLibrary.simpleMessage(
       "تأكيد التعديل",
