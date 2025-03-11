@@ -170,29 +170,29 @@ class S {
     );
   }
 
-  /// ` Bed deleted successfully!`
+  /// ` Patient deleted successfully!`
   String get deleted_successfully {
     return Intl.message(
-      ' Bed deleted successfully!',
+      ' Patient deleted successfully!',
       name: 'deleted_successfully',
       desc: '',
       args: [],
     );
   }
 
-  /// `Are you sure you want to delete this bed?`
+  /// `Are you sure you want to delete this patient?`
   String get confirm_deleted_bed {
     return Intl.message(
-      'Are you sure you want to delete this bed?',
+      'Are you sure you want to delete this patient?',
       name: 'confirm_deleted_bed',
       desc: '',
       args: [],
     );
   }
 
-  /// `Delete`
+  /// `Delete Patient`
   String get delete {
-    return Intl.message('Delete', name: 'delete', desc: '', args: []);
+    return Intl.message('Delete Patient', name: 'delete', desc: '', args: []);
   }
 
   /// `Maximum number of beds reached!`
@@ -478,6 +478,51 @@ class S {
   /// `Confirm`
   String get Confirm {
     return Intl.message('Confirm', name: 'Confirm', desc: '', args: []);
+  }
+
+  /// `  failed to delete patient`
+  String get failed_to_delete_patient {
+    return Intl.message(
+      '  failed to delete patient',
+      name: 'failed_to_delete_patient',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Previous Patients`
+  String get show_pre_patients {
+    return Intl.message(
+      'Previous Patients',
+      name: 'show_pre_patients',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Previous Patients`
+  String get pre_patients {
+    return Intl.message(
+      'Previous Patients',
+      name: 'pre_patients',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// ` There is no Previous Patients`
+  String get no_pre_patients {
+    return Intl.message(
+      ' There is no Previous Patients',
+      name: 'no_pre_patients',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Date`
+  String get deleted_at {
+    return Intl.message('Delete Date', name: 'deleted_at', desc: '', args: []);
   }
 }
 

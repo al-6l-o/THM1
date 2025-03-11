@@ -18,9 +18,9 @@
   "close": "إغلاق",
   "average_rating": "متوسط التقييم",
   "added_successfully": " تمت الإضافة بنجاح",
-  "deleted_successfully": "تم حذف السرير بنجاح",
-  "confirm_deleted_bed": "هل أنت متأكد أنك تريد حذف هذا السرير؟",
-  "delete": "حذف",
+  "deleted_successfully": "تم حذف المريض بنجاح",
+  "confirm_deleted_bed": "هل أنت متأكد أنك تريد حذف هذا المريض",
+  "delete": " حذف المريض",
   "maximum_beds_reached": "تم الوصول إلى الحد الأقصى لعدد الأسرة",
   "add_patient": "إضافة مريض",
   "bed_number": "رقم السرير",
@@ -58,7 +58,16 @@
   "confirm_modification_title": "تأكيد التعديل",
   "confirm_modification_content": " ادخل رقم التأكيد للتعديل",
   "message_incorrect_number": "رقم غير صحيح",
-  "Confirm": "تأكيد"
+  "Confirm": "تأكيد",
+  "failed_to_delete_patient": "فشل حذف المريض",
+  "show_pre_patients": "عرض المرضى السابقين",
+  "pre_patients": " المرضى السابقين",
+  "no_pre_patients": "لا يوجد مرضى سابقين",
+  "deleted_at": "تاريخ الحذف"
+
+
+
+
 
   
 

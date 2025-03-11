@@ -42,7 +42,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "close": MessageLookupByLibrary.simpleMessage(" Close"),
     "confirm_deleted_bed": MessageLookupByLibrary.simpleMessage(
-      "Are you sure you want to delete this bed?",
+      "Are you sure you want to delete this patient?",
     ),
     "confirm_exit": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to exit?",
@@ -54,9 +54,10 @@ class MessageLookup extends MessageLookupByLibrary {
       " Confirm Edit ",
     ),
     "dark_mode": MessageLookupByLibrary.simpleMessage("Dark Mode"),
-    "delete": MessageLookupByLibrary.simpleMessage("Delete"),
+    "delete": MessageLookupByLibrary.simpleMessage("Delete Patient"),
+    "deleted_at": MessageLookupByLibrary.simpleMessage("Delete Date"),
     "deleted_successfully": MessageLookupByLibrary.simpleMessage(
-      " Bed deleted successfully!",
+      " Patient deleted successfully!",
     ),
     "developedBy": MessageLookupByLibrary.simpleMessage("Developed By"),
     "doctor_name": MessageLookupByLibrary.simpleMessage("Doctor Name"),
@@ -65,6 +66,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Please Enter Another Number",
     ),
     "exit_app": MessageLookupByLibrary.simpleMessage("Exit App"),
+    "failed_to_delete_patient": MessageLookupByLibrary.simpleMessage(
+      "  failed to delete patient",
+    ),
     "female": MessageLookupByLibrary.simpleMessage("Female"),
     "gender": MessageLookupByLibrary.simpleMessage("Gender"),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
@@ -79,6 +83,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "no": MessageLookupByLibrary.simpleMessage("No"),
     "no_beds_yet": MessageLookupByLibrary.simpleMessage(
       "There are no beds added yet!",
+    ),
+    "no_pre_patients": MessageLookupByLibrary.simpleMessage(
+      " There is no Previous Patients",
     ),
     "ok": MessageLookupByLibrary.simpleMessage("Ok"),
     "patientId": MessageLookupByLibrary.simpleMessage("Patient ID"),
@@ -104,10 +111,14 @@ class MessageLookup extends MessageLookupByLibrary {
       "Please enter phone number",
     ),
     "pre": MessageLookupByLibrary.simpleMessage("+967"),
+    "pre_patients": MessageLookupByLibrary.simpleMessage("Previous Patients"),
     "rate_app": MessageLookupByLibrary.simpleMessage("Rate the App"),
     "save": MessageLookupByLibrary.simpleMessage("Save"),
     "select_language": MessageLookupByLibrary.simpleMessage("Select Language"),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+    "show_pre_patients": MessageLookupByLibrary.simpleMessage(
+      "Previous Patients",
+    ),
     "submit": MessageLookupByLibrary.simpleMessage("Submit"),
     "update_failed": MessageLookupByLibrary.simpleMessage("Update failed"),
     "updated_successfully": MessageLookupByLibrary.simpleMessage(

@@ -60,74 +60,6 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
     );
   }
 
-  void _deleteBed(String bedId) {
-    FirebaseFirestore.instance.collection('beds').doc(bedId).delete().then((_) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text(S.of(context).deleted_successfully,
-                style: TextStyle(
-                    color: Theme.of(context).textTheme.bodyMedium?.color)),
-            backgroundColor: Theme.of(context).dialogTheme.backgroundColor),
-      );
-    }).catchError((error) {
-      print('Failed to delete bed: $error');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to delete bed!')),
-      );
-    });
-  }
-
-  void _showDeleteConfirmationDialog(String bedId) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
-          // خلفية المربع الحواري
-          contentPadding: EdgeInsets.all(20),
-          content: Stack(
-            clipBehavior: Clip.none, // يسمح بظهور الأنيميشن خارج الـ Box
-            children: [
-              Positioned(
-                top: -65, // اجعل الأنيميشن يظهر فوق البوكس
-                left: 80,
-                child: Lottie.asset(
-                  'assets/animations/warning.json', // ضع مسار الأنيميشن هنا
-                  width: 75,
-                  height: 75,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Text(
-                S.of(context).confirm_deleted_bed,
-                style: TextStyle(fontSize: 17),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // إغلاق النافذة
-              },
-              child: Text(
-                S.of(context).cancel,
-                style: TextStyle(color: Theme.of(context).colorScheme.primary),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                _deleteBed(bedId); // استدعاء دالة الحذف
-                Navigator.of(context).pop(); // إغلاق النافذة بعد الحذف
-              },
-              child: Text(S.of(context).delete,
-                  style: TextStyle(color: Theme.of(context).colorScheme.error)),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   // تصميم الحقول مع تأثير التركيز
   InputDecoration customInputDecoration(String label) {
     return InputDecoration(
@@ -489,9 +421,6 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
                         ),
                       ),
                     );
-                  },
-                  onLongPress: () {
-                    _showDeleteConfirmationDialog(bed.id);
                   },
                   child: Container(
                     margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),

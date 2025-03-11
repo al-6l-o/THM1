@@ -42,7 +42,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
     "close": MessageLookupByLibrary.simpleMessage("إغلاق"),
     "confirm_deleted_bed": MessageLookupByLibrary.simpleMessage(
-      "هل أنت متأكد أنك تريد حذف هذا السرير؟",
+      "هل أنت متأكد أنك تريد حذف هذا المريض",
     ),
     "confirm_exit": MessageLookupByLibrary.simpleMessage(
       "هل أنت متأكد أنك تريد الخروج من التطبيق ؟",
@@ -54,9 +54,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "تأكيد التعديل",
     ),
     "dark_mode": MessageLookupByLibrary.simpleMessage("الوضع الداكن"),
-    "delete": MessageLookupByLibrary.simpleMessage("حذف"),
+    "delete": MessageLookupByLibrary.simpleMessage(" حذف المريض"),
+    "deleted_at": MessageLookupByLibrary.simpleMessage("تاريخ الحذف"),
     "deleted_successfully": MessageLookupByLibrary.simpleMessage(
-      "تم حذف السرير بنجاح",
+      "تم حذف المريض بنجاح",
     ),
     "developedBy": MessageLookupByLibrary.simpleMessage("تم تطويره بواسطة"),
     "doctor_name": MessageLookupByLibrary.simpleMessage("اسم الدكتور"),
@@ -65,6 +66,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "يرجى إدخال رقم اخر",
     ),
     "exit_app": MessageLookupByLibrary.simpleMessage("الخروج من التطبيق"),
+    "failed_to_delete_patient": MessageLookupByLibrary.simpleMessage(
+      "فشل حذف المريض",
+    ),
     "female": MessageLookupByLibrary.simpleMessage("أنثى"),
     "gender": MessageLookupByLibrary.simpleMessage("الجنس"),
     "language": MessageLookupByLibrary.simpleMessage("اللغة"),
@@ -79,6 +83,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "no": MessageLookupByLibrary.simpleMessage("لا"),
     "no_beds_yet": MessageLookupByLibrary.simpleMessage(
       " لا توجد أسرة حتى الان ",
+    ),
+    "no_pre_patients": MessageLookupByLibrary.simpleMessage(
+      "لا يوجد مرضى سابقين",
     ),
     "ok": MessageLookupByLibrary.simpleMessage("موافق"),
     "patientId": MessageLookupByLibrary.simpleMessage("رقم المريض"),
@@ -102,10 +109,14 @@ class MessageLookup extends MessageLookupByLibrary {
       "يرجى إدخال رقم الهاتف",
     ),
     "pre": MessageLookupByLibrary.simpleMessage("+٩٦٧"),
+    "pre_patients": MessageLookupByLibrary.simpleMessage(" المرضى السابقين"),
     "rate_app": MessageLookupByLibrary.simpleMessage("تقييم التطبيق"),
     "save": MessageLookupByLibrary.simpleMessage("حفظ"),
     "select_language": MessageLookupByLibrary.simpleMessage("اختر اللغة"),
     "settings": MessageLookupByLibrary.simpleMessage("الإعدادات"),
+    "show_pre_patients": MessageLookupByLibrary.simpleMessage(
+      "عرض المرضى السابقين",
+    ),
     "submit": MessageLookupByLibrary.simpleMessage("إرسال"),
     "update_failed": MessageLookupByLibrary.simpleMessage("فشل التحديث"),
     "updated_successfully": MessageLookupByLibrary.simpleMessage(

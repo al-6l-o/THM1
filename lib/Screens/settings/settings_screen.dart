@@ -6,6 +6,7 @@ import 'theme_toggle.dart';
 import 'language_selector.dart';
 import 'about_dialog.dart';
 import 'rating_dialog.dart';
+import 'previous_patient.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -43,6 +44,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
         title: Text(S.of(context).app_settings,
             style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
         backgroundColor: Theme.of(context).colorScheme.primary,
+        iconTheme: IconThemeData(
+          color: Theme.of(context).colorScheme.onPrimary,
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -52,6 +56,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ThemeToggle(),
             Divider(color: isDarkMode ? Colors.grey : Colors.black),
             LanguageSelector(),
+            Divider(color: isDarkMode ? Colors.grey : Colors.black),
+            ListTile(
+              leading: Icon(Icons.history,
+                  color: Theme.of(context).colorScheme.primary),
+              title: Text(S.of(context).show_pre_patients),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          PreviousPatientsScreen()), // ✅ الانتقال إلى شاشة المرضى السابقين
+                );
+              },
+            ),
             Divider(color: isDarkMode ? Colors.grey : Colors.black),
             ListTile(
               leading: Icon(Icons.info,

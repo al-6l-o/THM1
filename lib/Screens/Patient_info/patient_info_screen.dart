@@ -3,7 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:t_h_m/Constants/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:t_h_m/Providers/theme_provider.dart';
+import 'package:t_h_m/Screens/add_beds/add_beds_screen.dart';
 import 'package:t_h_m/generated/l10n.dart';
+import 'package:lottie/lottie.dart';
 
 class PatientInfoScreen extends StatefulWidget {
   final String docId;
@@ -48,7 +50,7 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
       _originaldoctorName;
 
   late String _selectedGender;
-  late int _patientId;
+  int? _patientId; // السماح بأن يكون `null` لمنع الخطأ
   late Future<int> _loadPatientIdFuture; // تعريف المتغير
 
   @override
@@ -59,19 +61,25 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
   }
 
   Future<int> _loadPatientId() async {
-    // تعديل الدالة لتُرجع int
     try {
       DocumentSnapshot counterDoc = await FirebaseFirestore.instance
           .collection('beds')
           .doc(widget.docId)
           .get();
 
-      return counterDoc['patientId']; // إرجاع الـ patientId كقيمة صحيحة
+      if (counterDoc.exists &&
+          counterDoc.data() != null &&
+          counterDoc['patientId'] != null) {
+        return counterDoc['patientId']; // إرجاع `patientId` كرقم صحيح
+      } else {
+        return 0; // إذا لم يكن هناك `patientId`
+      }
     } catch (e) {
       print('Error loading patientId: $e');
-      return 0; // إرجاع 0 في حال حدوث خطأ
+      return 0; // في حال حدوث خطأ
     }
   }
+  // حذف المرضى
 
   void _initializeControllers() {
     _bedNumberController = TextEditingController(text: widget.bedNumber);
@@ -319,32 +327,59 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // استخدم FutureBuilder لانتظار تحميل patientId
-                FutureBuilder<int>(
-                  future: _loadPatientIdFuture, // تمرير future من النوع int
+// استخدم FutureBuilder لانتظار تحميل patientId
+                StreamBuilder<DocumentSnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection('beds')
+                      .doc(widget.docId)
+                      .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator(); // عرض مؤشر تحميل
+                      return Center(child: CircularProgressIndicator());
                     } else if (snapshot.hasError) {
                       return Text(
-                          'Error: ${snapshot.error}'); // في حال حدوث خطأ
+                        'Error: ${snapshot.error}',
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.error),
+                      );
+                    } else if (!snapshot.hasData || !snapshot.data!.exists) {
+                      // ✅ إذا تم حذف المريض، إغلاق الصفحة تلقائيًا
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        if (mounted) {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    AddBedsScreen()), // استبدل `HomePage` بصفحتك الرئيسية
+                            (Route<dynamic> route) => false,
+                          );
+                        }
+                      });
+
+                      return Center(
+                        child: Text(
+                          "Patient data not found.",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                      );
                     } else {
+                      var data = snapshot.data!;
+                      int patientId = data['patientId'] ?? 0;
+
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${S.of(context).patientId} : ${snapshot.data}', // عرض Patient ID بعد تحميلها
+                            '${S.of(context).patientId} : $patientId',
                             style: TextStyle(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.color,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
+                              color:
+                                  Theme.of(context).textTheme.bodyMedium?.color,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                          SizedBox(
-                              height:
-                                  20), // إضافة مسافة بين Patient ID وبقية الحقول
+                          const SizedBox(height: 20),
                         ],
                       );
                     }
@@ -374,16 +409,41 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
                                 Theme.of(context).colorScheme.primary),
                         child: Text(
                           S.of(context).save,
-                          style: TextStyle(color: AppColors.backgroundColor),
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.onPrimary),
                         ),
                       ),
                       ElevatedButton(
                         onPressed: _cancelEditing,
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.warningColor),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.error),
                         child: Text(
                           S.of(context).cancel,
-                          style: TextStyle(color: AppColors.backgroundColor),
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.onPrimary),
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_patientId != 0) {
+                            // التحقق مما إذا كان `patientId` قد تم تحميله
+                            _showDeleteConfirmationDialog(
+                                context, widget.docId.toString());
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content:
+                                      Text("Patient ID is not available yet.")),
+                            );
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.error),
+                        child: Text(
+                          S.of(context).delete,
+                          style: TextStyle(color: Colors.white),
                         ),
                       ),
                     ],
@@ -490,5 +550,101 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
         ],
       ),
     );
+  }
+
+  void _showDeleteConfirmationDialog(BuildContext context, String docId) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
+          contentPadding: const EdgeInsets.all(20),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Lottie.asset(
+                'assets/animations/warning.json', // مسار الأنيميشن
+                width: 75,
+                height: 75,
+                fit: BoxFit.cover,
+              ),
+              const SizedBox(height: 10),
+              Text(
+                S.of(context).confirm_deleted_bed,
+                style: const TextStyle(fontSize: 17),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(), // إغلاق النافذة
+              child: Text(
+                S.of(context).cancel,
+                style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                _deletePatient(context, docId); // استدعاء دالة الحذف
+                Navigator.of(context).pop(); // إغلاق النافذة بعد الحذف
+              },
+              child: Text(
+                S.of(context).delete,
+                style: TextStyle(color: Theme.of(context).colorScheme.error),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _deletePatient(BuildContext context, String docId) async {
+    try {
+      DocumentSnapshot patientDoc =
+          await FirebaseFirestore.instance.collection('beds').doc(docId).get();
+
+      if (patientDoc.exists) {
+        Map<String, dynamic> patientData =
+            patientDoc.data() as Map<String, dynamic>;
+        patientData['deletedAt'] = FieldValue.serverTimestamp(); // تاريخ الحذف
+
+        // ✅ نقل البيانات إلى مجموعة `deleted_patients`
+        await FirebaseFirestore.instance
+            .collection('previous patients')
+            .doc(docId)
+            .set(patientData);
+
+        // ✅ حذف المستند من `beds` بعد النسخ
+        await FirebaseFirestore.instance.collection('beds').doc(docId).delete();
+
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Patient moved to archive!")),
+          );
+
+          // ✅ العودة للصفحة الرئيسية
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    AddBedsScreen()), // استبدل `HomePage` بصفحتك الرئيسية
+            (Route<dynamic> route) => false,
+          );
+        }
+      } else {
+        print("❌ Patient data not found!");
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Patient not found!")),
+        );
+      }
+    } catch (error) {
+      print('❌ Failed to delete patient: $error');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Failed to move patient to archive!")),
+        );
+      }
+    }
   }
 }

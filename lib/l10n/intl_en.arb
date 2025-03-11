@@ -17,9 +17,9 @@
   "close": " Close",
   "average_rating": " Average Rating",
   "added_successfully": "added successfully",
-  "deleted_successfully": " Bed deleted successfully!",
-  "confirm_deleted_bed": "Are you sure you want to delete this bed?",
-  "delete": "Delete",
+  "deleted_successfully": " Patient deleted successfully!",
+  "confirm_deleted_bed": "Are you sure you want to delete this patient?",
+  "delete": "Delete Patient",
   "maximum_beds_reached": "Maximum number of beds reached!",
   "add_patient": "Add patient",
   "bed_number": "Bed Number",
@@ -57,7 +57,17 @@
   "confirm_modification_title": " Confirm Edit ",
   "confirm_modification_content": "Enter the confirmation number to edit",
   "message_incorrect_number": "Incorrect Number",
-  "Confirm": "Confirm"
+  "Confirm": "Confirm",
+  "failed_to_delete_patient": "  failed to delete patient",
+  "show_pre_patients": "Previous Patients",
+  "pre_patients": "Previous Patients",
+  "no_pre_patients": " There is no Previous Patients",
+  "deleted_at": "Delete Date"
+
+
+
+
+
 
 
 
