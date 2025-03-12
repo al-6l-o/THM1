@@ -43,8 +43,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    final localeProvider =
-        Provider.of<LocaleProvider>(context); // استخدام LocaleProvider
+    Provider.of<LocaleProvider>(context); // استخدام LocaleProvider
     ThemeHelper.setNavigationBarColor(context);
 
     return MaterialApp(

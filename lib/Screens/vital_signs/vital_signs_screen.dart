@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:t_h_m/Constants/colors.dart';
 import 'package:t_h_m/Screens/Patient_info/patient_info_screen.dart';
 import 'package:t_h_m/generated/l10n.dart';
 import 'vital_signs_card.dart';

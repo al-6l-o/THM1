@@ -115,7 +115,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "select_language": MessageLookupByLibrary.simpleMessage("اختر اللغة"),
     "settings": MessageLookupByLibrary.simpleMessage("الإعدادات"),
     "show_pre_patients": MessageLookupByLibrary.simpleMessage(
-      "عرض المرضى السابقين",
+      " المرضى السابقين",
     ),
     "submit": MessageLookupByLibrary.simpleMessage("إرسال"),
     "update_failed": MessageLookupByLibrary.simpleMessage("فشل التحديث"),

@@ -60,7 +60,7 @@
   "message_incorrect_number": "رقم غير صحيح",
   "Confirm": "تأكيد",
   "failed_to_delete_patient": "فشل حذف المريض",
-  "show_pre_patients": "عرض المرضى السابقين",
+  "show_pre_patients": " المرضى السابقين",
   "pre_patients": " المرضى السابقين",
   "no_pre_patients": "لا يوجد مرضى سابقين",
   "deleted_at": "تاريخ الحذف"

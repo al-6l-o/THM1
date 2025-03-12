@@ -6,6 +6,9 @@ import 'package:t_h_m/Providers/theme_provider.dart';
 import 'package:t_h_m/Screens/add_beds/add_beds_screen.dart';
 import 'package:t_h_m/generated/l10n.dart';
 import 'package:lottie/lottie.dart';
+import 'patient_info_dialogs.dart';
+import 'patient_info_firebase.dart';
+import 'patient_info_widgets.dart';
 
 class PatientInfoScreen extends StatefulWidget {
   final String docId;
@@ -28,83 +31,62 @@ class PatientInfoScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _PatientInfoScreenState createState() => _PatientInfoScreenState();
+  PatientInfoScreenState createState() => PatientInfoScreenState();
 }
 
-class _PatientInfoScreenState extends State<PatientInfoScreen> {
-  late TextEditingController _bedNumberController;
-  late TextEditingController _nameController;
-  late TextEditingController _ageController;
-  late TextEditingController _phoneController;
-  late TextEditingController _doctorNameController;
+class PatientInfoScreenState extends State<PatientInfoScreen> {
+  late TextEditingController bedNumberController;
+  late TextEditingController nameController;
+  late TextEditingController ageController;
+  late TextEditingController phoneController;
+  late TextEditingController doctorNameController;
 
   bool _isEditing = false;
   bool _isError = false; // متغير لحالة الخطأ
   String _errorMessage = ''; // نص رسالة الخطأ
 
-  late String _originalBedNumber,
-      _originalName,
-      _originalAge,
-      _originalGender,
-      _originalPhone,
-      _originaldoctorName;
+  late String originalBedNumber,
+      originalName,
+      originalAge,
+      originalGender,
+      originalPhone,
+      originaldoctorName;
 
-  late String _selectedGender;
-  int? _patientId; // السماح بأن يكون `null` لمنع الخطأ
-  late Future<int> _loadPatientIdFuture; // تعريف المتغير
+  late String selectedGender;
+  int? patientId; // السماح بأن يكون `null` لمنع الخطأ
+  late Future<int> loadPatientIdFuture; // تعريف المتغير
 
   @override
   void initState() {
     super.initState();
-    _loadPatientIdFuture = _loadPatientId(); // تعيين دالة التحميل
-    _initializeControllers();
+    loadPatientIdFuture = loadPatientId(); // تعيين دالة التحميل
+    initializeControllers();
   }
 
-  Future<int> _loadPatientId() async {
-    try {
-      DocumentSnapshot counterDoc = await FirebaseFirestore.instance
-          .collection('beds')
-          .doc(widget.docId)
-          .get();
+  void initializeControllers() {
+    bedNumberController = TextEditingController(text: widget.bedNumber);
+    nameController = TextEditingController(text: widget.bedName);
+    ageController = TextEditingController(text: widget.age.toString());
+    phoneController = TextEditingController(text: widget.phoneNumber);
+    doctorNameController = TextEditingController(text: widget.doctorName);
 
-      if (counterDoc.exists &&
-          counterDoc.data() != null &&
-          counterDoc['patientId'] != null) {
-        return counterDoc['patientId']; // إرجاع `patientId` كرقم صحيح
-      } else {
-        return 0; // إذا لم يكن هناك `patientId`
-      }
-    } catch (e) {
-      print('Error loading patientId: $e');
-      return 0; // في حال حدوث خطأ
-    }
-  }
-  // حذف المرضى
+    selectedGender = widget.gender;
 
-  void _initializeControllers() {
-    _bedNumberController = TextEditingController(text: widget.bedNumber);
-    _nameController = TextEditingController(text: widget.bedName);
-    _ageController = TextEditingController(text: widget.age.toString());
-    _phoneController = TextEditingController(text: widget.phoneNumber);
-    _doctorNameController = TextEditingController(text: widget.doctorName);
-
-    _selectedGender = widget.gender;
-
-    _originalBedNumber = widget.bedNumber;
-    _originalName = widget.bedName;
-    _originalAge = widget.age.toString();
-    _originalGender = widget.gender;
-    _originalPhone = widget.phoneNumber;
-    _originaldoctorName = widget.doctorName;
+    originalBedNumber = widget.bedNumber;
+    originalName = widget.bedName;
+    originalAge = widget.age.toString();
+    originalGender = widget.gender;
+    originalPhone = widget.phoneNumber;
+    originaldoctorName = widget.doctorName;
   }
 
   @override
   void dispose() {
-    _bedNumberController.dispose();
-    _nameController.dispose();
-    _ageController.dispose();
-    _phoneController.dispose();
-    _doctorNameController.dispose();
+    bedNumberController.dispose();
+    nameController.dispose();
+    ageController.dispose();
+    phoneController.dispose();
+    doctorNameController.dispose();
 
     super.dispose();
   }
@@ -112,7 +94,7 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
   void _updatePatientData() async {
     var docRef =
         FirebaseFirestore.instance.collection('beds').doc(widget.docId);
-    String newBedNumber = _bedNumberController.text.trim();
+    String newBedNumber = bedNumberController.text.trim();
 
     // التحقق مما إذا كان رقم السرير الجديد موجودًا بالفعل في قاعدة البيانات
     var querySnapshot = await FirebaseFirestore.instance
@@ -124,7 +106,7 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
         querySnapshot.docs.any((doc) => doc.id != widget.docId);
 
     if (bedNumberExists) {
-      _showDuplicateBedNumberDialog();
+      showDuplicateBedNumberDialog(context);
       return; // الخروج دون تحديث البيانات
     }
 
@@ -139,20 +121,20 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
 
       docRef.update({
         'bedNumber': newBedNumber,
-        'bedName': _nameController.text.trim(),
-        'age': int.tryParse(_ageController.text) ?? int.parse(_originalAge),
-        'gender': _selectedGender,
-        'phoneNumber': _phoneController.text.trim(),
-        'doctorName': _doctorNameController.text.trim(),
+        'bedName': nameController.text.trim(),
+        'age': int.tryParse(ageController.text) ?? int.parse(originalAge),
+        'gender': selectedGender,
+        'phoneNumber': phoneController.text.trim(),
+        'doctorName': doctorNameController.text.trim(),
       }).then((_) {
         setState(() {
           _isEditing = false;
-          _originalBedNumber = newBedNumber;
-          _originalName = _nameController.text;
-          _originalAge = _ageController.text;
-          _originalGender = _selectedGender;
-          _originalPhone = _phoneController.text;
-          _originaldoctorName = _doctorNameController.text;
+          originalBedNumber = newBedNumber;
+          originalName = nameController.text;
+          originalAge = ageController.text;
+          originalGender = selectedGender;
+          originalPhone = phoneController.text;
+          originaldoctorName = doctorNameController.text;
         });
 
         ScaffoldMessenger.of(context).showSnackBar(
@@ -174,54 +156,16 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
     });
   }
 
-// دالة لعرض التنبيه إذا كان رقم السرير مكررًا
-  void _showDuplicateBedNumberDialog() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        backgroundColor:
-        Theme.of(context).dialogTheme.backgroundColor;
-
-        return AlertDialog(
-          title: Text(
-            S.of(context).bed_exists,
-            style: TextStyle(
-                color: Theme.of(context).colorScheme.error, fontSize: 20),
-          ),
-          content: Text(
-            S.of(context).enter_another_number,
-            style: TextStyle(
-                color: Theme.of(context).textTheme.bodyMedium?.color,
-                fontSize: 14),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // إغلاق التنبيه
-              },
-              child: Text(
-                S.of(context).ok,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onPrimary,
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   void _cancelEditing() {
     setState(() {
       _isEditing = false;
 
-      _bedNumberController.text = _originalBedNumber;
-      _nameController.text = _originalName;
-      _ageController.text = _originalAge;
-      _selectedGender = _originalGender;
-      _phoneController.text = _originalPhone;
-      _doctorNameController.text = _originaldoctorName;
+      bedNumberController.text = originalBedNumber;
+      nameController.text = originalName;
+      ageController.text = originalAge;
+      selectedGender = originalGender;
+      phoneController.text = originalPhone;
+      doctorNameController.text = originaldoctorName;
     });
   }
 
@@ -231,78 +175,6 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
       return false;
     }
     return true;
-  }
-
-  void _showEditDialog() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        bool isError = false;
-        String errorMessage = "";
-        bool isEditing = false; // يتحكم في تفعيل التعديل
-        TextEditingController codeController = TextEditingController();
-
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return AlertDialog(
-              title: Text(
-                S.of(context).confirm_modification_title,
-                style: TextStyle(
-                    fontSize: 18, color: Theme.of(context).primaryColor),
-              ),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(height: 10),
-                  TextField(
-                    controller: codeController,
-                    decoration: InputDecoration(
-                      labelText: S.of(context).confirm_modification_content,
-                      labelStyle: TextStyle(fontSize: 14),
-                      errorText: isError
-                          ? errorMessage
-                          : null, // يظهر الخطأ فقط عند الضغط على تأكيد
-                    ),
-                    keyboardType: TextInputType.number,
-                  ),
-                ],
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    if (codeController.text == "1234") {
-                      Navigator.of(context).pop(true); // إرجاع true عند النجاح
-                    } else {
-                      setState(() {
-                        isError = true;
-                        errorMessage = S.of(context).message_incorrect_number;
-                      });
-                    }
-                  },
-                  child: Text(S.of(context).Confirm),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(false);
-                  },
-                  child: Text(
-                    S.of(context).cancel,
-                    style:
-                        TextStyle(color: Theme.of(context).colorScheme.error),
-                  ),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    ).then((isVerified) {
-      if (isVerified == true) {
-        setState(() {
-          _isEditing = true; // تفعيل التعديل بعد إغلاق الـ Dialog بنجاح
-        });
-      }
-    });
   }
 
   @override
@@ -385,18 +257,17 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
                     }
                   },
                 ),
-                _buildTextField(S.of(context).bed_number, _bedNumberController,
-                    originalValue: _originalBedNumber),
-                _buildTextField(S.of(context).name, _nameController,
-                    originalValue: _originalName),
-                _buildTextField(S.of(context).age, _ageController,
-                    isNumber: true, originalValue: _originalAge),
+                _buildTextField(S.of(context).bed_number, bedNumberController,
+                    originalValue: originalBedNumber),
+                _buildTextField(S.of(context).name, nameController,
+                    originalValue: originalName),
+                _buildTextField(S.of(context).age, ageController,
+                    isNumber: true, originalValue: originalAge),
                 _buildGenderSelector(),
-                _buildTextField(S.of(context).phone_number, _phoneController,
-                    originalValue: _originalPhone),
-                _buildTextField(
-                    S.of(context).doctor_name, _doctorNameController,
-                    originalValue: _originaldoctorName),
+                _buildTextField(S.of(context).phone_number, phoneController,
+                    originalValue: originalPhone),
+                _buildTextField(S.of(context).doctor_name, doctorNameController,
+                    originalValue: originaldoctorName),
                 const SizedBox(height: 20),
                 if (_isEditing)
                   Row(
@@ -426,10 +297,9 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          if (_patientId != 0) {
+                          if (patientId != 0) {
                             // التحقق مما إذا كان `patientId` قد تم تحميله
-                            _showDeleteConfirmationDialog(
-                                context, widget.docId.toString());
+                            showDeleteConfirmationDialog(context, widget.docId);
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -453,7 +323,11 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: _showEditDialog,
+          onPressed: () => showEditConfirmationDialog(() {
+            setState(() {
+              _isEditing = true;
+            });
+          }),
           backgroundColor: Theme.of(context).colorScheme.primary,
           child: Icon(
             Icons.edit,
@@ -521,11 +395,11 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
             children: [
               Radio<String>(
                 value: S.of(context).male,
-                groupValue: _selectedGender,
+                groupValue: selectedGender,
                 onChanged: _isEditing
                     ? (value) {
                         setState(() {
-                          _selectedGender = value!;
+                          selectedGender = value!;
                         });
                       }
                     : null,
@@ -534,11 +408,11 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
               Text(S.of(context).male),
               Radio<String>(
                 value: S.of(context).female,
-                groupValue: _selectedGender,
+                groupValue: selectedGender,
                 onChanged: _isEditing
                     ? (value) {
                         setState(() {
-                          _selectedGender = value!;
+                          selectedGender = value!;
                         });
                       }
                     : null,
@@ -550,101 +424,5 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
         ],
       ),
     );
-  }
-
-  void _showDeleteConfirmationDialog(BuildContext context, String docId) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
-          contentPadding: const EdgeInsets.all(20),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Lottie.asset(
-                'assets/animations/warning.json', // مسار الأنيميشن
-                width: 75,
-                height: 75,
-                fit: BoxFit.cover,
-              ),
-              const SizedBox(height: 10),
-              Text(
-                S.of(context).confirm_deleted_bed,
-                style: const TextStyle(fontSize: 17),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(), // إغلاق النافذة
-              child: Text(
-                S.of(context).cancel,
-                style: TextStyle(color: Theme.of(context).colorScheme.primary),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                _deletePatient(context, docId); // استدعاء دالة الحذف
-                Navigator.of(context).pop(); // إغلاق النافذة بعد الحذف
-              },
-              child: Text(
-                S.of(context).delete,
-                style: TextStyle(color: Theme.of(context).colorScheme.error),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _deletePatient(BuildContext context, String docId) async {
-    try {
-      DocumentSnapshot patientDoc =
-          await FirebaseFirestore.instance.collection('beds').doc(docId).get();
-
-      if (patientDoc.exists) {
-        Map<String, dynamic> patientData =
-            patientDoc.data() as Map<String, dynamic>;
-        patientData['deletedAt'] = FieldValue.serverTimestamp(); // تاريخ الحذف
-
-        // ✅ نقل البيانات إلى مجموعة `deleted_patients`
-        await FirebaseFirestore.instance
-            .collection('previous patients')
-            .doc(docId)
-            .set(patientData);
-
-        // ✅ حذف المستند من `beds` بعد النسخ
-        await FirebaseFirestore.instance.collection('beds').doc(docId).delete();
-
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Patient moved to archive!")),
-          );
-
-          // ✅ العودة للصفحة الرئيسية
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    AddBedsScreen()), // استبدل `HomePage` بصفحتك الرئيسية
-            (Route<dynamic> route) => false,
-          );
-        }
-      } else {
-        print("❌ Patient data not found!");
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Patient not found!")),
-        );
-      }
-    } catch (error) {
-      print('❌ Failed to delete patient: $error');
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Failed to move patient to archive!")),
-        );
-      }
-    }
   }
 }
