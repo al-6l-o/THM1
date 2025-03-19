@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:t_h_m/generated/l10n.dart';
 
 class PatientInfoWidgets {
+  //  دالة إنشاء حقل إدخال (TextField) مع استعادة القيمة تلقائيًا
   static Widget buildTextField({
     required BuildContext context,
     required String label,
@@ -9,14 +10,13 @@ class PatientInfoWidgets {
     bool isNumber = false,
     required bool enabled,
     required String originalValue,
-    required Function(String) onValueRestored,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Focus(
         onFocusChange: (hasFocus) {
           if (!hasFocus && controller.text.trim().isEmpty) {
-            onValueRestored(originalValue);
+            controller.text = originalValue; //  استعادة القيمة الأصلية تلقائيًا
           }
         },
         child: TextField(
@@ -38,13 +38,15 @@ class PatientInfoWidgets {
             ),
           ),
           style: TextStyle(
-            color: Theme.of(context).textTheme.bodyMedium?.color,
-          ),
+              color: enabled
+                  ? Theme.of(context).textTheme.bodyMedium?.color
+                  : Theme.of(context).textTheme.bodyMedium?.color),
         ),
       ),
     );
   }
 
+  //  دالة إنشاء محدد الجنس (Gender Selector)
   static Widget buildGenderSelector({
     required BuildContext context,
     required bool enabled,
@@ -66,25 +68,36 @@ class PatientInfoWidgets {
               Radio<String>(
                 value: S.of(context).male,
                 groupValue: selectedGender,
-                onChanged: enabled
-                    ? (value) {
-                        onGenderSelected(value!);
-                      }
-                    : null,
+                onChanged: enabled ? (value) => onGenderSelected(value!) : null,
                 activeColor: Theme.of(context).colorScheme.primary,
+                fillColor: MaterialStateProperty.resolveWith((states) => enabled
+                    ? Theme.of(context).colorScheme.primary
+                    : Colors.grey),
               ),
-              Text(S.of(context).male),
+              Text(
+                S.of(context).male,
+                style: TextStyle(
+                    color: enabled
+                        ? Theme.of(context).textTheme.bodyMedium?.color
+                        : Theme.of(context).textTheme.bodyMedium?.color),
+              ),
+              const SizedBox(width: 10),
               Radio<String>(
                 value: S.of(context).female,
                 groupValue: selectedGender,
-                onChanged: enabled
-                    ? (value) {
-                        onGenderSelected(value!);
-                      }
-                    : null,
+                onChanged: enabled ? (value) => onGenderSelected(value!) : null,
                 activeColor: Theme.of(context).colorScheme.primary,
+                fillColor: MaterialStateProperty.resolveWith((states) => enabled
+                    ? Theme.of(context).colorScheme.primary
+                    : Colors.grey),
               ),
-              Text(S.of(context).female),
+              Text(
+                S.of(context).female,
+                style: TextStyle(
+                    color: enabled
+                        ? Theme.of(context).textTheme.bodyMedium?.color
+                        : Theme.of(context).textTheme.bodyMedium?.color),
+              ),
             ],
           ),
         ],

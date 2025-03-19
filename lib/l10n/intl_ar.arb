@@ -63,7 +63,11 @@
   "show_pre_patients": " المرضى السابقين",
   "pre_patients": " المرضى السابقين",
   "no_pre_patients": "لا يوجد مرضى سابقين",
-  "deleted_at": "تاريخ الحذف"
+  "deleted_at": "تاريخ الحذف",
+  "logout": " تسجيل الخروج",
+  "logout_confirm": " هل أنت متأكد من تسجيل الخروج ؟",
+  "search": "بحث .. "
+
 
 
 

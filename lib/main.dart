@@ -10,6 +10,8 @@ import 'theme/theme_helper.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:t_h_m/generated/l10n.dart';
 import 'package:t_h_m/Providers/localization_provider.dart'; // استيراد الملف
+import 'Screens/login/login_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -69,7 +71,9 @@ class MyApp extends StatelessWidget {
       ],
       home:
           // isFirstTime ?
-          WelcomeScreen(),
+          FirebaseAuth.instance.currentUser != null
+              ? AddBedsScreen()
+              : LoginScreen(),
       //: AddBedsScreen(),
     );
   }

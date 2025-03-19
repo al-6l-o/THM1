@@ -7,6 +7,7 @@ import 'language_selector.dart';
 import 'about_dialog.dart';
 import 'rating_dialog.dart';
 import 'previous_patient.dart';
+import 'log_out.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -24,6 +25,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<void> _getAverageRating() async {
     double avg = await getAverageRating();
+    if (!mounted) return;
+
     setState(() {
       averageRating = avg;
     });
@@ -86,6 +89,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   "${S.of(context).average_rating}: ${averageRating.toStringAsFixed(1)}"),
               onTap: () => showRatingDialog(context, updateAverageRating),
             ),
+            Divider(color: isDarkMode ? Colors.grey : Colors.black),
+            ListTile(
+                leading: Icon(Icons.exit_to_app,
+                    color: Theme.of(context).colorScheme.primary),
+                title: Text(S.of(context).logout),
+                onTap: () => LogOut.confirmSignOut(context)),
           ],
         ),
       ),

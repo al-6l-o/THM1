@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:t_h_m/Screens/Patient_info/patient_info_screen.dart';
 import 'package:t_h_m/generated/l10n.dart';
 import 'vital_signs_card.dart';
+import 'package:t_h_m/Screens/Patient_info/patient_info_firebase.dart';
 
 class VitalSignsScreen extends StatelessWidget {
   final String bedNumber;
@@ -11,6 +12,7 @@ class VitalSignsScreen extends StatelessWidget {
   final String gender;
   final String phoneNumber;
   final String doctorName;
+  final String userRole;
 
   const VitalSignsScreen({
     Key? key,
@@ -21,6 +23,7 @@ class VitalSignsScreen extends StatelessWidget {
     required this.gender,
     required this.phoneNumber,
     required this.doctorName,
+    required this.userRole,
   }) : super(key: key);
 
   @override
@@ -81,8 +84,9 @@ class VitalSignsScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              onTap: () {
-                Navigator.of(context).pop();
+              onTap: () async {
+                String userRole = await getUserRole();
+                Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -94,6 +98,7 @@ class VitalSignsScreen extends StatelessWidget {
                       gender: gender,
                       phoneNumber: phoneNumber,
                       doctorName: doctorName,
+                      userRole: userRole,
                     ),
                   ),
                 );

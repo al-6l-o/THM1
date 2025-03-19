@@ -72,6 +72,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "female": MessageLookupByLibrary.simpleMessage("أنثى"),
     "gender": MessageLookupByLibrary.simpleMessage("الجنس"),
     "language": MessageLookupByLibrary.simpleMessage("اللغة"),
+    "logout": MessageLookupByLibrary.simpleMessage(" تسجيل الخروج"),
+    "logout_confirm": MessageLookupByLibrary.simpleMessage(
+      " هل أنت متأكد من تسجيل الخروج ؟",
+    ),
     "male": MessageLookupByLibrary.simpleMessage("ذكر"),
     "maximum_beds_reached": MessageLookupByLibrary.simpleMessage(
       "تم الوصول إلى الحد الأقصى لعدد الأسرة",
@@ -112,6 +116,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "pre_patients": MessageLookupByLibrary.simpleMessage(" المرضى السابقين"),
     "rate_app": MessageLookupByLibrary.simpleMessage("تقييم التطبيق"),
     "save": MessageLookupByLibrary.simpleMessage("حفظ"),
+    "search": MessageLookupByLibrary.simpleMessage("بحث .. "),
     "select_language": MessageLookupByLibrary.simpleMessage("اختر اللغة"),
     "settings": MessageLookupByLibrary.simpleMessage("الإعدادات"),
     "show_pre_patients": MessageLookupByLibrary.simpleMessage(

@@ -72,6 +72,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "female": MessageLookupByLibrary.simpleMessage("Female"),
     "gender": MessageLookupByLibrary.simpleMessage("Gender"),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
+    "logout": MessageLookupByLibrary.simpleMessage(" Log Out"),
+    "logout_confirm": MessageLookupByLibrary.simpleMessage(
+      "Are you sure to log out ?",
+    ),
     "male": MessageLookupByLibrary.simpleMessage("Male"),
     "maximum_beds_reached": MessageLookupByLibrary.simpleMessage(
       "Maximum number of beds reached!",
@@ -114,6 +118,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "pre_patients": MessageLookupByLibrary.simpleMessage("Previous Patients"),
     "rate_app": MessageLookupByLibrary.simpleMessage("Rate the App"),
     "save": MessageLookupByLibrary.simpleMessage("Save"),
+    "search": MessageLookupByLibrary.simpleMessage("search..."),
     "select_language": MessageLookupByLibrary.simpleMessage("Select Language"),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "show_pre_patients": MessageLookupByLibrary.simpleMessage(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:t_h_m/generated/l10n.dart';
-import 'firebase_services.dart';
+import 'add_beds_firebase.dart';
 import 'custom_text_field.dart';
 import 'dialogs.dart';
 
@@ -12,6 +12,22 @@ class AddBedDialog extends StatefulWidget {
 
 class _AddBedDialogState extends State<AddBedDialog> {
   static const int maxBeds = 10; // الحد الأقصى لعدد الأسرة
+  List<String> doctorNames = []; // قائمة بأسماء الأطباء
+  String? selectedDoctor; // الطبيب المختار
+  final FirebaseService _firebaseService = FirebaseService(); // استدعاء الخدمة
+
+  @override
+  void initState() {
+    super.initState();
+    loadDoctors(); // تحميل أسماء الأطباء
+  }
+
+  Future<void> loadDoctors() async {
+    List<String> names = await _firebaseService.fetchDoctorNames();
+    setState(() {
+      doctorNames = names;
+    });
+  }
 
   final _formKey = GlobalKey<FormState>();
   final TextEditingController bedNumberController = TextEditingController();
@@ -76,13 +92,25 @@ class _AddBedDialogState extends State<AddBedDialog> {
                 context: context,
                 prefixText: S.of(context).pre,
               ),
-              buildTextField(
-                label: S.of(context).doctor_name,
-                controller: doctorNameController,
-                keyboardType: TextInputType.text,
+              DropdownButtonFormField<String>(
+                value: selectedDoctor, // الطبيب المختار
+                decoration: InputDecoration(
+                  labelText: S.of(context).doctor_name,
+                  border: OutlineInputBorder(),
+                ),
+                items: doctorNames.map((String doctor) {
+                  return DropdownMenuItem<String>(
+                    value: doctor,
+                    child: Text(doctor),
+                  );
+                }).toList(),
                 validator: (value) =>
-                    value!.isEmpty ? S.of(context).please_doctor_name : null,
-                context: context,
+                    value == null ? S.of(context).please_doctor_name : null,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedDoctor = newValue;
+                  });
+                },
               ),
             ],
           ),
@@ -115,7 +143,7 @@ class _AddBedDialogState extends State<AddBedDialog> {
                 int.tryParse(ageController.text.trim()) ?? 0,
                 gender,
                 phoneNumberController.text.trim(),
-                doctorNameController.text.trim(),
+                selectedDoctor,
                 context,
               );
 

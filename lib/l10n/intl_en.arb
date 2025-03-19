@@ -62,7 +62,13 @@
   "show_pre_patients": "Previous Patients",
   "pre_patients": "Previous Patients",
   "no_pre_patients": " There is no Previous Patients",
-  "deleted_at": "Delete Date"
+  "deleted_at": "Delete Date",
+  "logout": " Log Out",
+  "logout_confirm": "Are you sure to log out ?",
+  "search": "search..."
+
+
+
 
 
 

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:t_h_m/Constants/colors.dart';
-import 'package:provider/provider.dart';
-import 'package:t_h_m/Providers/theme_provider.dart';
 import 'package:t_h_m/Screens/add_beds/add_beds_screen.dart';
 import 'package:t_h_m/generated/l10n.dart';
-import 'package:lottie/lottie.dart';
 import 'patient_info_dialogs.dart';
 import 'patient_info_firebase.dart';
 import 'patient_info_widgets.dart';
@@ -18,6 +15,7 @@ class PatientInfoScreen extends StatefulWidget {
   final String gender;
   final String phoneNumber;
   final String doctorName;
+  final String userRole;
 
   const PatientInfoScreen({
     Key? key,
@@ -28,6 +26,7 @@ class PatientInfoScreen extends StatefulWidget {
     required this.gender,
     required this.phoneNumber,
     required this.doctorName,
+    required this.userRole,
   }) : super(key: key);
 
   @override
@@ -42,9 +41,8 @@ class PatientInfoScreenState extends State<PatientInfoScreen> {
   late TextEditingController doctorNameController;
 
   bool _isEditing = false;
-  bool _isError = false; // متغير لحالة الخطأ
-  String _errorMessage = ''; // نص رسالة الخطأ
-
+  String? userRole;
+  bool isLoading = true;
   late String originalBedNumber,
       originalName,
       originalAge,
@@ -257,17 +255,51 @@ class PatientInfoScreenState extends State<PatientInfoScreen> {
                     }
                   },
                 ),
-                _buildTextField(S.of(context).bed_number, bedNumberController,
-                    originalValue: originalBedNumber),
-                _buildTextField(S.of(context).name, nameController,
-                    originalValue: originalName),
-                _buildTextField(S.of(context).age, ageController,
-                    isNumber: true, originalValue: originalAge),
-                _buildGenderSelector(),
-                _buildTextField(S.of(context).phone_number, phoneController,
-                    originalValue: originalPhone),
-                _buildTextField(S.of(context).doctor_name, doctorNameController,
-                    originalValue: originaldoctorName),
+                PatientInfoWidgets.buildTextField(
+                  context: context,
+                  label: S.of(context).bed_number,
+                  controller: bedNumberController,
+                  enabled: _isEditing,
+                  originalValue: originalBedNumber,
+                ),
+                PatientInfoWidgets.buildTextField(
+                  context: context,
+                  label: S.of(context).name,
+                  controller: nameController,
+                  enabled: _isEditing,
+                  originalValue: originalName,
+                ),
+                PatientInfoWidgets.buildTextField(
+                  context: context,
+                  label: S.of(context).age,
+                  controller: ageController,
+                  enabled: _isEditing,
+                  originalValue: originalAge,
+                ),
+                PatientInfoWidgets.buildGenderSelector(
+                  context: context,
+                  enabled: _isEditing,
+                  selectedGender: selectedGender,
+                  onGenderSelected: (String gender) {
+                    setState(() {
+                      selectedGender = gender;
+                    });
+                  },
+                ),
+                PatientInfoWidgets.buildTextField(
+                  context: context,
+                  label: S.of(context).phone_number,
+                  controller: phoneController,
+                  enabled: _isEditing,
+                  originalValue: originalPhone,
+                ),
+                PatientInfoWidgets.buildTextField(
+                  context: context,
+                  label: S.of(context).doctor_name,
+                  controller: doctorNameController,
+                  enabled: _isEditing,
+                  originalValue: originaldoctorName,
+                ),
                 const SizedBox(height: 20),
                 if (_isEditing)
                   Row(
@@ -322,106 +354,18 @@ class PatientInfoScreenState extends State<PatientInfoScreen> {
             ),
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => showEditConfirmationDialog(() {
-            setState(() {
-              _isEditing = true;
-            });
-          }),
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          child: Icon(
-            Icons.edit,
-            color: Theme.of(context).colorScheme.onPrimary,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTextField(String label, TextEditingController controller,
-      {bool isNumber = false, required String originalValue}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Focus(
-        onFocusChange: (hasFocus) {
-          if (!hasFocus && controller.text.trim().isEmpty) {
-            setState(() {
-              controller.text = originalValue; // إرجاع القيمة الأصلية
-            });
-          }
-        },
-        child: TextField(
-          controller: controller,
-          keyboardType: isNumber ? TextInputType.number : TextInputType.text,
-          enabled: _isEditing,
-          cursorColor:
-              Theme.of(context).colorScheme.primary, // تغيير لون المؤشر
-          decoration: InputDecoration(
-              labelText: label,
-              labelStyle:
-                  TextStyle(color: Theme.of(context).colorScheme.primary),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey),
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: Theme.of(context).colorScheme.primary, width: 2.0),
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              hintStyle: TextStyle(
-                color: Theme.of(context).textTheme.bodyMedium?.color,
-              )),
-          style: TextStyle(
-            color: Theme.of(context).textTheme.bodyMedium?.color,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildGenderSelector() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            S.of(context).gender,
-            style: TextStyle(
-                fontSize: 16, color: Theme.of(context).colorScheme.primary),
-          ),
-          Row(
-            children: [
-              Radio<String>(
-                value: S.of(context).male,
-                groupValue: selectedGender,
-                onChanged: _isEditing
-                    ? (value) {
-                        setState(() {
-                          selectedGender = value!;
-                        });
-                      }
-                    : null,
-                activeColor: Theme.of(context).colorScheme.primary,
-              ),
-              Text(S.of(context).male),
-              Radio<String>(
-                value: S.of(context).female,
-                groupValue: selectedGender,
-                onChanged: _isEditing
-                    ? (value) {
-                        setState(() {
-                          selectedGender = value!;
-                        });
-                      }
-                    : null,
-                activeColor: Theme.of(context).colorScheme.primary,
-              ),
-              Text(S.of(context).female),
-            ],
-          ),
-        ],
+        floatingActionButton: widget.userRole == "Admin"
+            ? FloatingActionButton(
+                onPressed: () => setState(() {
+                  _isEditing = true;
+                }),
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                child: Icon(
+                  Icons.edit,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
+              )
+            : null,
       ),
     );
   }

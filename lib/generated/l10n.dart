@@ -524,6 +524,26 @@ class S {
   String get deleted_at {
     return Intl.message('Delete Date', name: 'deleted_at', desc: '', args: []);
   }
+
+  /// ` Log Out`
+  String get logout {
+    return Intl.message(' Log Out', name: 'logout', desc: '', args: []);
+  }
+
+  /// `Are you sure to log out ?`
+  String get logout_confirm {
+    return Intl.message(
+      'Are you sure to log out ?',
+      name: 'logout_confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `search...`
+  String get search {
+    return Intl.message('search...', name: 'search', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

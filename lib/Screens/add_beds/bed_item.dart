@@ -10,6 +10,7 @@ class BedItem extends StatelessWidget {
   final String gender;
   final String phoneNumber;
   final String doctorName;
+  final String userRole;
 
   const BedItem({
     Key? key,
@@ -20,6 +21,7 @@ class BedItem extends StatelessWidget {
     required this.gender,
     required this.phoneNumber,
     required this.doctorName,
+    required this.userRole,
   }) : super(key: key);
 
   @override
@@ -37,6 +39,7 @@ class BedItem extends StatelessWidget {
               gender: gender,
               phoneNumber: phoneNumber,
               doctorName: doctorName,
+              userRole: userRole,
             ),
           ),
         );
