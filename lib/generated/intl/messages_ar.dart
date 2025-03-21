@@ -30,6 +30,7 @@ class MessageLookup extends MessageLookupByLibrary {
       " تمت الإضافة بنجاح",
     ),
     "age": MessageLookupByLibrary.simpleMessage("العمر"),
+    "all_patients": MessageLookupByLibrary.simpleMessage("كل المرضى "),
     "app_settings": MessageLookupByLibrary.simpleMessage("إعدادات التطبيق"),
     "app_title": MessageLookupByLibrary.simpleMessage("مراقبة الصحة عن بُعد"),
     "arabic": MessageLookupByLibrary.simpleMessage("العربية"),
@@ -40,6 +41,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "bed_number": MessageLookupByLibrary.simpleMessage("رقم السرير"),
     "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
+    "choice_patients": MessageLookupByLibrary.simpleMessage(" اختيار المرضى"),
     "close": MessageLookupByLibrary.simpleMessage("إغلاق"),
     "confirm_deleted_bed": MessageLookupByLibrary.simpleMessage(
       "هل أنت متأكد أنك تريد حذف هذا المريض",
@@ -83,6 +85,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "message_incorrect_number": MessageLookupByLibrary.simpleMessage(
       "رقم غير صحيح",
     ),
+    "my_patients": MessageLookupByLibrary.simpleMessage(" مرضاي فقط"),
     "name": MessageLookupByLibrary.simpleMessage("الإسم"),
     "no": MessageLookupByLibrary.simpleMessage("لا"),
     "no_beds_yet": MessageLookupByLibrary.simpleMessage(
@@ -122,12 +125,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "show_pre_patients": MessageLookupByLibrary.simpleMessage(
       " المرضى السابقين",
     ),
+    "smart_assistant": MessageLookupByLibrary.simpleMessage("المساعد الذكي"),
     "submit": MessageLookupByLibrary.simpleMessage("إرسال"),
+    "type_question": MessageLookupByLibrary.simpleMessage(" اكتب سؤالك .. "),
     "update_failed": MessageLookupByLibrary.simpleMessage("فشل التحديث"),
     "updated_successfully": MessageLookupByLibrary.simpleMessage(
       "تم التحديث بنجاح",
     ),
     "version": MessageLookupByLibrary.simpleMessage("الإصدار"),
+    "view_patients": MessageLookupByLibrary.simpleMessage(" عرض المرضى"),
     "vital_signs": MessageLookupByLibrary.simpleMessage("العلامات الحيوية"),
     "yes": MessageLookupByLibrary.simpleMessage("نعم"),
   };

@@ -93,10 +93,12 @@ class _AddBedDialogState extends State<AddBedDialog> {
                 prefixText: S.of(context).pre,
               ),
               DropdownButtonFormField<String>(
-                value: selectedDoctor, // الطبيب المختار
+                value: selectedDoctor,
+                dropdownColor: Theme.of(context)
+                    .dialogTheme
+                    .backgroundColor, // الطبيب المختار
                 decoration: InputDecoration(
                   labelText: S.of(context).doctor_name,
-                  border: OutlineInputBorder(),
                 ),
                 items: doctorNames.map((String doctor) {
                   return DropdownMenuItem<String>(

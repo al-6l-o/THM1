@@ -65,7 +65,16 @@
   "deleted_at": "Delete Date",
   "logout": " Log Out",
   "logout_confirm": "Are you sure to log out ?",
-  "search": "search..."
+  "search": "search...",
+  "type_question": "Type your question ..",
+  "smart_assistant": " Smart Assistant",
+  "view_patients": " View Patients",
+  "choice_patients": "Choice Patients ",
+  "all_patients": " All Patients",
+  "my_patients": "Only My Patients"
+
+
+
 
 
 

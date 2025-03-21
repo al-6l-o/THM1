@@ -204,6 +204,17 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
+      appBar: AppBar(
+        title: Text(
+          "Login to THM",
+          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+        ),
+        backgroundColor: AppColors.darkPrimaryColor,
+        iconTheme: IconThemeData(
+          color: Theme.of(context).colorScheme.onPrimary,
+        ),
+      ),
       body: Stack(
         children: [
           Container(
@@ -218,45 +229,46 @@ class _LoginScreenState extends State<LoginScreen> {
           Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(height: 10),
-                  const Text(
-                    "Login",
-                    style: TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+              child: SingleChildScrollView(
+                //  هذا يسمح بالتمرير بدون إغلاق الكيبورد
+                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior
+                    .manual, //  لا يغلق الكيبورد عند السحب
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(height: 10),
+                    Image.asset(
+                      "assets/images/logo.png",
+                      height: 150,
+                      width: 150,
                     ),
-                  ),
-                  const SizedBox(height: 30),
-                  _buildTextField("Email", _emailController, _emailError),
-                  _buildTextField(
-                      "Password", _passwordController, _passwordError,
-                      obscureText: true, isPassword: true),
-                  _buildDropdown(),
-                  const SizedBox(height: 30),
-                  _isLoading
-                      ? const CircularProgressIndicator(color: Colors.white)
-                      : ElevatedButton(
-                          onPressed: _login,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            foregroundColor:
-                                const Color.fromARGB(255, 0, 146, 116),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 50, vertical: 15),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
+                    const SizedBox(height: 30),
+                    _buildTextField("Email", _emailController, _emailError),
+                    _buildTextField(
+                        "Password", _passwordController, _passwordError,
+                        obscureText: true, isPassword: true),
+                    _buildDropdown(),
+                    const SizedBox(height: 30),
+                    _isLoading
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : ElevatedButton(
+                            onPressed: _login,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              foregroundColor: AppColors.primaryColor,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 50, vertical: 15),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            child: const Text(
+                              "Login",
+                              style: TextStyle(fontSize: 18),
                             ),
                           ),
-                          child: const Text(
-                            "Login",
-                            style: TextStyle(fontSize: 18),
-                          ),
-                        ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

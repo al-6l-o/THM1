@@ -38,74 +38,29 @@ class VitalSignsScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.primary,
         iconTheme: IconThemeData(color: Theme.of(context).iconTheme.color),
         actions: [
-          Builder(
-            builder: (context) => IconButton(
-              icon: Icon(Icons.menu,
-                  color: Theme.of(context).colorScheme.onPrimary),
-              onPressed: () {
-                Scaffold.of(context).openEndDrawer();
-              },
-            ),
+          IconButton(
+            icon: Icon(Icons.info_outline_rounded,
+                color: Theme.of(context).colorScheme.onPrimary),
+            onPressed: () async {
+              String userRole = await getUserRole();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PatientInfoScreen(
+                    docId: docId,
+                    bedNumber: bedNumber,
+                    bedName: bedName,
+                    age: age,
+                    gender: gender,
+                    phoneNumber: phoneNumber,
+                    doctorName: doctorName,
+                    userRole: userRole,
+                  ),
+                ),
+              );
+            },
           ),
         ],
-      ),
-      endDrawer: Drawer(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 90,
-              color: Theme.of(context).colorScheme.primary,
-              alignment: Alignment.centerLeft,
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                S.of(context).patient_settings,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onPrimary,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            ListTile(
-              title: Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(vertical: 15),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
-                  child: Text(
-                    S.of(context).patient_informations,
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onPrimary,
-                        fontSize: 18),
-                  ),
-                ),
-              ),
-              onTap: () async {
-                String userRole = await getUserRole();
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => PatientInfoScreen(
-                      docId: docId,
-                      bedNumber: bedNumber,
-                      bedName: bedName,
-                      age: age,
-                      gender: gender,
-                      phoneNumber: phoneNumber,
-                      doctorName: doctorName,
-                      userRole: userRole,
-                    ),
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

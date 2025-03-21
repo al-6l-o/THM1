@@ -544,6 +544,66 @@ class S {
   String get search {
     return Intl.message('search...', name: 'search', desc: '', args: []);
   }
+
+  /// `Type your question ..`
+  String get type_question {
+    return Intl.message(
+      'Type your question ..',
+      name: 'type_question',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// ` Smart Assistant`
+  String get smart_assistant {
+    return Intl.message(
+      ' Smart Assistant',
+      name: 'smart_assistant',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// ` View Patients`
+  String get view_patients {
+    return Intl.message(
+      ' View Patients',
+      name: 'view_patients',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choice Patients `
+  String get choice_patients {
+    return Intl.message(
+      'Choice Patients ',
+      name: 'choice_patients',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// ` All Patients`
+  String get all_patients {
+    return Intl.message(
+      ' All Patients',
+      name: 'all_patients',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Only My Patients`
+  String get my_patients {
+    return Intl.message(
+      'Only My Patients',
+      name: 'my_patients',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

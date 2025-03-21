@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 import 'package:t_h_m/Screens/add_beds/add_beds_screen.dart';
-import 'Screens/welcome/welcome_screen.dart';
+//import 'Screens/welcome/welcome_screen.dart';
 import 'Providers/theme_provider.dart';
 import 'package:t_h_m/Theme/app_theme.dart';
 import 'theme/theme_helper.dart';

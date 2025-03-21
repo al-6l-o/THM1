@@ -30,6 +30,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "added successfully",
     ),
     "age": MessageLookupByLibrary.simpleMessage("Age"),
+    "all_patients": MessageLookupByLibrary.simpleMessage(" All Patients"),
     "app_settings": MessageLookupByLibrary.simpleMessage("App Settings"),
     "app_title": MessageLookupByLibrary.simpleMessage("Tele Health Monitoring"),
     "arabic": MessageLookupByLibrary.simpleMessage("Arabic"),
@@ -40,6 +41,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "bed_number": MessageLookupByLibrary.simpleMessage("Bed Number"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+    "choice_patients": MessageLookupByLibrary.simpleMessage("Choice Patients "),
     "close": MessageLookupByLibrary.simpleMessage(" Close"),
     "confirm_deleted_bed": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to delete this patient?",
@@ -83,6 +85,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "message_incorrect_number": MessageLookupByLibrary.simpleMessage(
       "Incorrect Number",
     ),
+    "my_patients": MessageLookupByLibrary.simpleMessage("Only My Patients"),
     "name": MessageLookupByLibrary.simpleMessage("Name"),
     "no": MessageLookupByLibrary.simpleMessage("No"),
     "no_beds_yet": MessageLookupByLibrary.simpleMessage(
@@ -124,12 +127,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "show_pre_patients": MessageLookupByLibrary.simpleMessage(
       "Previous Patients",
     ),
+    "smart_assistant": MessageLookupByLibrary.simpleMessage(" Smart Assistant"),
     "submit": MessageLookupByLibrary.simpleMessage("Submit"),
+    "type_question": MessageLookupByLibrary.simpleMessage(
+      "Type your question ..",
+    ),
     "update_failed": MessageLookupByLibrary.simpleMessage("Update failed"),
     "updated_successfully": MessageLookupByLibrary.simpleMessage(
       "Updated successfully!",
     ),
     "version": MessageLookupByLibrary.simpleMessage("Version"),
+    "view_patients": MessageLookupByLibrary.simpleMessage(" View Patients"),
     "vital_signs": MessageLookupByLibrary.simpleMessage("Vital Signs"),
     "yes": MessageLookupByLibrary.simpleMessage("Yes"),
   };
