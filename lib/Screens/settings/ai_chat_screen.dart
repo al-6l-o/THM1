@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:t_h_m/generated/l10n.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AIChatScreen extends StatefulWidget {
   @override
@@ -11,6 +12,8 @@ class _AIChatScreenState extends State<AIChatScreen> {
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   List<Map<String, String>> messages = [];
+  String apiKey =
+      dotenv.env['API_KEY'] ?? ''; // تحميل مفتاح API بعد dotenv.load()
 
   Future<void> sendMessage(String userMessage) async {
     setState(() {
@@ -22,8 +25,7 @@ class _AIChatScreenState extends State<AIChatScreen> {
         'https://openrouter.ai/api/v1/chat/completions',
         options: Options(
           headers: {
-            "Authorization":
-                "Bearer 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",
+            "Authorization": "Bearer $apiKey",
             "Content-Type": "application/json",
             "HTTP-Referer": "https://myapp.test",
           },

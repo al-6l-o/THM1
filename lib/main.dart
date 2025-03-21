@@ -12,10 +12,12 @@ import 'package:t_h_m/generated/l10n.dart';
 import 'package:t_h_m/Providers/localization_provider.dart'; // استيراد الملف
 import 'Screens/login/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await dotenv.load(fileName: ".env");
 
   // SharedPreferences prefs = await SharedPreferences.getInstance();
   // bool isFirstTime = prefs.getBool('first_time') ?? true;

@@ -31,6 +31,8 @@ dependencies:
   flutter:
     sdk: flutter
   dio: ^5.0.0
+  flutter_dotenv: ^5.1.0
+
 
 
   flutter_native_splash: ^2.4.4
@@ -88,6 +90,8 @@ flutter:
     - assets/images/
     - assets/animations/
     - lib/l10n/
+    - .env
+
 
 #splash screen
 flutter_native_splash:
