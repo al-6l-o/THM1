@@ -14,11 +14,38 @@ class _AIChatScreenState extends State<AIChatScreen> {
   List<Map<String, String>> messages = [];
   String apiKey =
       dotenv.env['API_KEY'] ?? ''; // تحميل مفتاح API بعد dotenv.load()
+  bool _isBotTyping = false;
+
+  void _simulateTypingEffect(String fullMessage) async {
+    String currentText = "";
+    messages.add({"sender": "bot", "text": ""}); // إضافة رسالة فارغة للبوت
+    setState(() {
+      _isBotTyping = true; // تعطيل الإرسال أثناء رد البوت
+    });
+
+    for (int i = 0; i < fullMessage.length; i++) {
+      await Future.delayed(
+          Duration(milliseconds: 50)); // تأخير لإضافة التأثير التدريجي
+      currentText = fullMessage.substring(0, i + 1);
+
+      setState(() {
+        messages[messages.length - 1]["text"] = currentText; // تحديث آخر رسالة
+      });
+
+      scrollToBottom();
+    }
+    // إعادة تفعيل الإرسال بعد انتهاء الكتابة
+    setState(() {
+      _isBotTyping = false;
+    });
+  }
 
   Future<void> sendMessage(String userMessage) async {
     setState(() {
       messages.add({"sender": "user", "text": userMessage});
+      _isBotTyping = true;
     });
+
     scrollToBottom();
     try {
       final response = await Dio().post(
@@ -44,13 +71,12 @@ class _AIChatScreenState extends State<AIChatScreen> {
 
       final String botReply = response.data["choices"][0]["message"]["content"];
 
-      setState(() {
-        messages.add({"sender": "bot", "text": botReply});
-      });
-      scrollToBottom();
+      // إظهار الرد بشكل تدريجي
+      _simulateTypingEffect(botReply);
     } catch (e) {
-      print(" خطأ: $e"); // طباعة الخطأ بالكامل
+      print("خطأ: $e");
       setState(() {
+        _isBotTyping = false;
         messages.add({"sender": "bot", "text": "حدث خطأ: $e"});
       });
       scrollToBottom();
@@ -99,7 +125,7 @@ class _AIChatScreenState extends State<AIChatScreen> {
                           : Theme.of(context).dialogTheme.backgroundColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Text(
+                    child: SelectableText(
                       msg["text"]!,
                       style: TextStyle(
                           color: msg["sender"] == "user"
@@ -129,12 +155,14 @@ class _AIChatScreenState extends State<AIChatScreen> {
                     Icons.send,
                     color: Theme.of(context).colorScheme.primary,
                   ),
-                  onPressed: () {
-                    if (_controller.text.isNotEmpty) {
-                      sendMessage(_controller.text);
-                      _controller.clear();
-                    }
-                  },
+                  onPressed: _isBotTyping
+                      ? null
+                      : () {
+                          if (_controller.text.isNotEmpty) {
+                            sendMessage(_controller.text);
+                            _controller.clear();
+                          }
+                        },
                 ),
               ],
             ),

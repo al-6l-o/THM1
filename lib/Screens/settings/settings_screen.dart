@@ -11,7 +11,7 @@ import 'rating_dialog.dart';
 import 'previous_patient.dart';
 import 'log_out.dart';
 import 'ai_chat_screen.dart';
-import 'view_patients.dart';
+import 'view_selected_patients.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override

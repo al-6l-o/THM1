@@ -10,6 +10,10 @@ import 'add_beds_firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AddBedsScreen extends StatefulWidget {
+  final String? doctorName;
+
+  const AddBedsScreen({Key? key, this.doctorName}) : super(key: key);
+
   @override
   _AddBedsScreenState createState() => _AddBedsScreenState();
 }
@@ -21,44 +25,36 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
   bool _isSearching = false;
   TextEditingController _searchController = TextEditingController();
   String searchQuery = '';
-  List<String> doctorNames = []; // قائمة الأطباء
-  String? selectedDoctor; // الطبيب المختار
+  String selectedPatientType = 'all';
+  String? doctorName;
 
   @override
   void initState() {
     super.initState();
-    fetchUserRole();
+    fetchUserData();
   }
 
-  Future<void> fetchUserRole() async {
-    String? role = await _firebaseService.getUserRole();
-    setState(() {
-      userRole = role;
-      isLoading = false;
-    });
-  }
+  Future<void> fetchUserData() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
 
-  Future<String> getUserRole() async {
-    try {
-      String currentUserId = FirebaseAuth.instance.currentUser?.uid ?? "";
-      if (currentUserId.isEmpty) return "Unknown";
+    DocumentSnapshot userDoc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get();
 
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(currentUserId)
-          .get();
-
-      if (userDoc.exists && userDoc.data() != null) {
-        return (userDoc.data() as Map<String, dynamic>)['Role'] ?? "Unknown";
-      } else {
-        return "Unknown"; // إذا لم يكن لديه دور
-      }
-    } catch (e) {
-      print("Error fetching user role: $e");
-      return "Unknown";
+    if (userDoc.exists && userDoc.data() != null) {
+      Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+      setState(() {
+        userRole = userData['Role'] ?? "Unknown";
+        doctorName = userData['Name'] ?? "";
+        selectedPatientType = userData['selectedOption'] ?? 'all';
+        isLoading = false;
+      });
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
@@ -94,7 +90,6 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
                 ),
           backgroundColor: Theme.of(context).colorScheme.primary,
           actions: [
-            // زر البحث
             IconButton(
               icon: Icon(
                 _isSearching ? Icons.close : Icons.search,
@@ -110,7 +105,6 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
                 });
               },
             ),
-            // زر الإعدادات
             IconButton(
               icon: Icon(
                 Icons.settings,
@@ -125,60 +119,65 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
             ),
           ],
         ),
-        body: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance
-              .collection('beds')
-              .orderBy('timestamp', descending: false)
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
+        body: isLoading
+            ? Center(
                 child: CircularProgressIndicator(
                   color: Theme.of(context).colorScheme.primary,
                 ),
-              );
-            }
+              )
+            : StreamBuilder<QuerySnapshot>(
+                stream: getBedsStream(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    );
+                  }
 
-            if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-              return Center(
-                child: Text(
-                  S.of(context).no_beds_yet,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).textTheme.bodyMedium?.color,
-                  ),
-                ),
-              );
-            }
-            var beds = snapshot.data!.docs.where((bed) {
-              var bedData = bed.data() as Map<String, dynamic>;
-              var patientName =
-                  bedData['bedName']?.toString().toLowerCase() ?? "";
-              return searchQuery.isEmpty || patientName.contains(searchQuery);
-            }).toList();
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return Center(
+                      child: Text(
+                        S.of(context).no_beds_yet,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).textTheme.bodyMedium?.color,
+                        ),
+                      ),
+                    );
+                  }
 
-            return ListView.builder(
-              itemCount: beds.length,
-              itemBuilder: (context, index) {
-                var bed = beds[index];
-                var bedData = bed.data() as Map<String, dynamic>?;
+                  var beds = snapshot.data!.docs.where((bed) {
+                    var bedData = bed.data() as Map<String, dynamic>;
+                    var patientName =
+                        bedData['bedName']?.toString().toLowerCase() ?? "";
+                    return searchQuery.isEmpty ||
+                        patientName.contains(searchQuery);
+                  }).toList();
 
-                return BedItem(
-                  docId: bed.id,
-                  bedNumber: bedData?['bedNumber'] ?? 'Unknown',
-                  bedName: bedData?['bedName'] ?? 'Unknown',
-                  age: bedData?['age'] ?? 0,
-                  gender: bedData?['gender'] ?? 'Unknown',
-                  phoneNumber: bedData?['phoneNumber'] ?? 'Unknown',
-                  doctorName: bedData?['doctorName'] ?? 'Unknown',
-                  userRole: userRole ?? "Unknown", // ✅ تمرير الدور بعد تحميله
-                );
-              },
-            );
-          },
-        ),
-        floatingActionButton: (userRole == "Admin") // ✅ زر يظهر فقط للإدمن
+                  return ListView.builder(
+                    itemCount: beds.length,
+                    itemBuilder: (context, index) {
+                      var bed = beds[index];
+                      var bedData = bed.data() as Map<String, dynamic>?;
+
+                      return BedItem(
+                        docId: bed.id,
+                        bedNumber: bedData?['bedNumber'] ?? 'Unknown',
+                        bedName: bedData?['bedName'] ?? 'Unknown',
+                        age: bedData?['age'] ?? 0,
+                        gender: bedData?['gender'] ?? 'Unknown',
+                        phoneNumber: bedData?['phoneNumber'] ?? 'Unknown',
+                        doctorName: bedData?['doctorName'] ?? 'Unknown',
+                        userRole: userRole ?? "Unknown",
+                      );
+                    },
+                  );
+                },
+              ),
+        floatingActionButton: (userRole == "Admin")
             ? FloatingActionButton(
                 onPressed: () {
                   showDialog(
@@ -190,8 +189,18 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
                 child:
                     Icon(Icons.add, color: Theme.of(context).iconTheme.color),
               )
-            : null, // إذا لم يكن المستخدم Admin، لن يظهر الزر
+            : null,
       ),
     );
+  }
+
+  Stream<QuerySnapshot> getBedsStream() {
+    Query query = FirebaseFirestore.instance.collection('beds');
+
+    if (selectedPatientType == 'myPatients' && (doctorName ?? '').isNotEmpty) {
+      query = query.where('doctorName', isEqualTo: doctorName);
+    }
+
+    return query.snapshots();
   }
 }

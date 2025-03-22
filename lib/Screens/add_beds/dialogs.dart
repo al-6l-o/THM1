@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:t_h_m/generated/l10n.dart';
 import 'package:t_h_m/Constants/colors.dart';
+import 'package:flutter/services.dart';
 
 // نافدة منبثقة للنجاح
 class Dialogs {
@@ -64,7 +65,11 @@ class Dialogs {
                     style: TextStyle(color: AppColors.primaryColor)),
               ),
               TextButton(
-                onPressed: () => Navigator.of(context).pop(true), // الخروج
+                onPressed: () {
+                  Navigator.of(context)
+                      .popUntil((route) => route.isFirst); // الخروج من التطبيق
+                  SystemNavigator.pop();
+                },
                 child: Text(S.of(context).yes,
                     style:
                         TextStyle(color: Theme.of(context).colorScheme.error)),
