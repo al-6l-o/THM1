@@ -156,6 +156,16 @@ class _AddBedsScreenState extends State<AddBedsScreen> {
                     return searchQuery.isEmpty ||
                         patientName.contains(searchQuery);
                   }).toList();
+// الترتيب حسب timestamp (إذا كان موجودًا)
+                  beds.sort((a, b) {
+                    var aData = a.data() as Map<String, dynamic>;
+                    var bData = b.data() as Map<String, dynamic>;
+
+                    var aTimestamp = aData['timestamp'] ?? Timestamp(0, 0);
+                    var bTimestamp = bData['timestamp'] ?? Timestamp(0, 0);
+
+                    return aTimestamp.compareTo(bTimestamp);
+                  });
 
                   return ListView.builder(
                     itemCount: beds.length,

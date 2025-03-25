@@ -93,7 +93,7 @@ extension PatientInfoDialogs on State {
         patientData['deletedAt'] = FieldValue.serverTimestamp(); // تاريخ الحذف
 
         await FirebaseFirestore.instance
-            .collection('previous patients')
+            .collection('previous_patients')
             .doc(docId)
             .set(patientData);
 

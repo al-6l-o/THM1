@@ -6,6 +6,7 @@ import 'package:t_h_m/generated/l10n.dart';
 import 'patient_info_dialogs.dart';
 import 'patient_info_firebase.dart';
 import 'patient_info_widgets.dart';
+import 'package:t_h_m/Screens/add_beds/add_beds_firebase.dart';
 
 class PatientInfoScreen extends StatefulWidget {
   final String docId;
@@ -53,12 +54,16 @@ class PatientInfoScreenState extends State<PatientInfoScreen> {
   late String selectedGender;
   int? patientId; // السماح بأن يكون `null` لمنع الخطأ
   late Future<int> loadPatientIdFuture; // تعريف المتغير
+  String? selectedDoctor; // إضافة هذا السطر
+  List<String> doctorNames = [];
+  final FirebaseService _firebaseService = FirebaseService();
 
   @override
   void initState() {
     super.initState();
     loadPatientIdFuture = loadPatientId(); // تعيين دالة التحميل
     initializeControllers();
+    loadDoctors();
   }
 
   void initializeControllers() {
@@ -87,6 +92,14 @@ class PatientInfoScreenState extends State<PatientInfoScreen> {
     doctorNameController.dispose();
 
     super.dispose();
+  }
+
+  Future<void> loadDoctors() async {
+    List<String> doctors =
+        await _firebaseService.fetchDoctorNames(); // استدعاء الدالة من الكائن
+    setState(() {
+      doctorNames = doctors;
+    });
   }
 
   void _updatePatientData() async {
@@ -293,12 +306,27 @@ class PatientInfoScreenState extends State<PatientInfoScreen> {
                   enabled: _isEditing,
                   originalValue: originalPhone,
                 ),
-                PatientInfoWidgets.buildTextField(
-                  context: context,
-                  label: S.of(context).doctor_name,
-                  controller: doctorNameController,
-                  enabled: _isEditing,
-                  originalValue: originaldoctorName,
+                DropdownButtonFormField<String>(
+                  value: selectedDoctor,
+                  dropdownColor: Theme.of(context)
+                      .dialogTheme
+                      .backgroundColor, // الطبيب المختار
+                  decoration: InputDecoration(
+                    labelText: S.of(context).doctor_name,
+                  ),
+                  items: doctorNames.map((String doctor) {
+                    return DropdownMenuItem<String>(
+                      value: doctor,
+                      child: Text(doctor),
+                    );
+                  }).toList(),
+                  validator: (value) =>
+                      value == null ? S.of(context).please_doctor_name : null,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedDoctor = newValue;
+                    });
+                  },
                 ),
                 const SizedBox(height: 20),
                 if (_isEditing)
